@@ -5,7 +5,7 @@ Repository du projet Digiliberty
 
 - Simon Ponitzki
 - Antoine Nisoli
-- Kylian Coutouzis
+- Kilian Coutouzis
 - Sary Zeaitier
 
 ----
