@@ -1,5 +1,7 @@
-# Digiliberty-AKSS
-Repository du projet Digiliberty 
+# Commuride
+Repository du projet Commuride 
+
+Ce projet est une application permettant à des utilisateurs de louer des vehicules mis à disposition par leur societe ainsi que de prevoir des trajets en covoiturage avec leur collaborateurs.
 
 ## Membres du projet : 
 
