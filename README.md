@@ -13,7 +13,7 @@ Repository du projet Digiliberty
 Maquette + charte graphique Figma :  
 https://www.figma.com/file/8JmYmTczVQGcGJyWCjCpAQ/DigiLibert%C3%A9?type=design&node-id=0%3A1&mode=design&t=0bIPgnmyE34Du2ya-1](https://www.figma.com/file/8JmYmTczVQGcGJyWCjCpAQ/Commuride?type=design&node-id=0%3A1&mode=design&t=gkz5ngiiZJDgSswe-1
 ----
-Planning Trello :  
+Planning + user stories Trello :  
 https://trello.com/b/VgjZE5Qw/user-stories
 ----
 Base de Donnée :  
