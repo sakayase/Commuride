@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "24ijPMKHEgVW27DarKYCYuUVlQ99DzgQfvsUROQzozBXf2g73kk29bAELGvZ4Oz7TpCMqpuNvEvstww3mGHzgg==",
+  "success": true,
+  "projectFilePath": "D:\\Documents\\Diginamic\\projet_fil_rouge\\Commuride\\CommurideApi\\CommurideApi.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\couto\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\couto\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\couto\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
+    "C:\\Users\\couto\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
+    "C:\\Users\\couto\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
+    "C:\\Users\\couto\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}
