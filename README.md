@@ -6,7 +6,6 @@ Ce projet est une application permettant à des utilisateurs de louer des vehicu
 ## Membres du projet : 
 
 - Simon Ponitzki
-- Antoine Nisoli
 - Kilian Coutouzis
 - Sary Zeaitier
 
