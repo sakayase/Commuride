@@ -1,8 +1,7 @@
 using System.Reflection;
-using DbContexts;
+using CommurideModels.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
