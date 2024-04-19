@@ -2,7 +2,7 @@
 
 namespace CommurideModels.Models
 {
-    internal class AppUser : IdentityUser
+    public class AppUser : IdentityUser
     {
     }
 }

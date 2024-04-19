@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommurideModels\CommurideModels.csproj" />
+    <ProjectReference Include="..\CommurideRepositories\CommurideRepositories.csproj" />
   </ItemGroup>
 
     <PropertyGroup>
