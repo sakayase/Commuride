@@ -12,7 +12,7 @@ namespace CommurideModels.DTOs.Vehicle
         public required string URLPhoto { get; set; }
         public required MotorisationVehicle Motorization { get; set; }
         public required int CO2 { get; set; }
-        public required StatutVehicle status{ get; set; }
+        public required StatutVehicle Status{ get; set; }
         public required int NbPlaces { get; set; }
     }
 }

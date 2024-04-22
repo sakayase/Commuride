@@ -5,6 +5,7 @@ namespace CommurideModels.DTOs.Vehicle
 {
     public class UpdateVehicleDTO
     {
+        public required int VehicleId { get; set; }
         public required string Brand { get; set; }
         public required string Model { get; set; }
         public required CategoryVehicle Category { get; set; }

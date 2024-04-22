@@ -1,3 +1,4 @@
+using CommurideModels.DbContexts;
 using CommurideModels.DTOs.Vehicle;
 using CommurideModels.Models;
 using CommurideRepositories.IRepositories;
@@ -7,29 +8,80 @@ using Models;
 namespace CommurideRepositories.Repositories {
     public class VehicleRepository : IVehicleRepository
     {
-        public Task<Vehicle> CreateVehicle(AppUser AppUser, CreateVehicleDTO vehicleDTO)
+        private readonly ApplicationDbContext _dbContext;
+
+        public VehicleRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            this._dbContext = context;
         }
 
-        public Task DeleteComment(AppUser AppUser, int VehicleId)
+        public async Task<Vehicle> CreateVehicle( CreateVehicleDTO vehicleDTO)
         {
-            throw new NotImplementedException();
+            Vehicle? vehicle = new() {
+                Id = vehicleDTO.VehicleId,
+                Registration = vehicleDTO.Registration,
+                Brand = vehicleDTO.Brand,
+                Model = vehicleDTO.Model,
+                Category = vehicleDTO.Category,
+                URLPhoto =  vehicleDTO.URLPhoto,
+                Motorization = vehicleDTO.Motorization,
+                CO2 =   vehicleDTO.CO2,
+                Status = vehicleDTO.Status,
+                NbPlaces = vehicleDTO.NbPlaces
+            };
+            _dbContext.Add(vehicle);
+            await _dbContext.SaveChangesAsync();
+            return vehicle;
+
+
         }
 
-        public Task<GetVehicleDTO?> Get(int VehicleId)
+        public async Task DeleteVehicle( int VehicleId)
         {
-            throw new NotImplementedException();
+            Vehicle? vehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(x => VehicleId == x.Id);
+            _dbContext.Vehicles.Remove(vehicle!);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task<List<GetAllVehicleDTO>> GetAll()
+        public async Task<GetVehicleDTO?> Get(int VehicleId)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Vehicles.Select(x => new GetVehicleDTO()
+            {
+                Registration = x.Registration,
+                Brand = x.Brand,
+                Model = x.Model,
+                Category = x.Category,
+                URLPhoto =  x.URLPhoto,
+                Motorization = x.Motorization,
+                CO2 =   x.CO2,
+                Status = x.Status,
+                NbPlaces = x.NbPlaces
+            }).FirstOrDefaultAsync();
         }
 
-        public Task<Vehicle> UpdateVehicle(AppUser AppUser, UpdateVehicleDTO commentDTO)
+        public async Task<List<GetAllVehicleDTO>> GetAll()
         {
-            throw new NotImplementedException();
+            List<GetAllVehicleDTO> vehicles = await _dbContext.Vehicles.Select(x => new GetAllVehicleDTO()
+            {
+                Registration = x.Registration,
+                Brand = x.Brand,
+                Model = x.Model,
+                Category = x.Category,
+                URLPhoto =  x.URLPhoto,
+                Motorization = x.Motorization,
+                CO2 =   x.CO2,
+                Status = x.Status,
+                NbPlaces = x.NbPlaces
+            }).ToListAsync();
+            return vehicles;
+        }
+
+        public async Task<Vehicle> UpdateVehicle( UpdateVehicleDTO vehicleDTO)
+        {
+            Vehicle? vehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(x => x.Id == vehicleDTO.VehicleId);
+            _dbContext.Entry(vehicle).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return vehicle;
         }
     }
 }

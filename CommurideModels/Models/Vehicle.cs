@@ -49,7 +49,7 @@ namespace Models {
         [Required]
         public int CO2 { get; set; }
         [Required]
-        public StatutVehicle status{ get; set; }
+        public StatutVehicle Status{ get; set; }
         [Required]
         public int NbPlaces { get; set; }
         public AppUser User { get; set; }
