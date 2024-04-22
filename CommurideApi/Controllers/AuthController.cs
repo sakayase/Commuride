@@ -90,7 +90,10 @@ namespace CommurideApi.Controllers
 
 
         //TODO: Sortir ca dans le repo
-        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpGet()]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<AppUser> GetConnectedUser()
         {
             var appUser = await _userManager.GetUserAsync(User);

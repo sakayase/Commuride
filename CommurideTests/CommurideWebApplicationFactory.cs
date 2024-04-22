@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net;
 
 namespace CommurideTests
 {
@@ -35,6 +36,19 @@ namespace CommurideTests
                 });
             });
         }
+
+        /*public new HttpClient CreateClient()
+        {
+            var cookieContainer = new CookieContainer();
+            var httpClientHandler = new HttpClientHandler()
+            {
+                CookieContainer = cookieContainer
+            };
+
+            var client = new HttpClient(httpClientHandler);
+            client
+            return client;
+        } */
     }
 }
 
