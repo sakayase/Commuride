@@ -36,11 +36,11 @@ namespace CommurideApi.Controllers {
             return Ok(vehicleDTO);
         }
 
-        [HttpPut("UpdateComment/{id}")]
-        [Authorize]
+        [HttpPut("UpdateVehicle/{id}")]
+        // [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Put(int id, UpdateVehicleDTO vehicleDTO)
+        public async Task<IActionResult> PutVehicle(int id, UpdateVehicleDTO vehicleDTO)
         {
             await _vehicleRepository.UpdateVehicle(vehicleDTO);
 
