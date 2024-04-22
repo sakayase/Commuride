@@ -35,4 +35,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+    <ItemGroup>
+	    <InternalsVisibleTo Include="CommurideTests" />
+    </ItemGroup>
+
 </Project>
