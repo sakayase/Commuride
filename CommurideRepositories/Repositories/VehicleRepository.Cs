@@ -79,7 +79,7 @@ namespace CommurideRepositories.Repositories {
         public async Task<Vehicle> UpdateVehicle( UpdateVehicleDTO vehicleDTO)
         {
             Vehicle? vehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(x => x.Id == vehicleDTO.VehicleId);
-            _dbContext.Entry(vehicle).State = EntityState.Modified;
+            _dbContext.Update(vehicle);
             await _dbContext.SaveChangesAsync();
             return vehicle;
         }
