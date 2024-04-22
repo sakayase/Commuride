@@ -4,5 +4,6 @@ namespace CommurideModels.Models
 {
     public class AppUser : IdentityUser
     {
+        public string PhotoURL { get; set; }
     }
 }

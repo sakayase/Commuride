@@ -14,10 +14,10 @@ namespace CommurideTests
 
         // Use of TheoryData for strongly typed data tests
         public static TheoryData<CreateAppUserDTO> registerTestData = new TheoryData<CreateAppUserDTO>() {
-            new () { Username = "test_user", Password = "pass", Password2 = "pass", BirthDate = new DateTime() },
-            new () { Username = "test_user2", Password = "pass", Password2 = "pass", BirthDate = new DateTime() },
-            new () { Username = "test_user3", Password = "pass", Password2 = "pass", BirthDate = new DateTime() },
-            new () { Username = "test_user4", Password = "pass", Password2 = "pass", BirthDate = new DateTime() }
+            new () { Username = "test_user", Password = "pass", Password2 = "pass" },
+            new () { Username = "test_user2", Password = "pass", Password2 = "pass" },
+            new () { Username = "test_user3", Password = "pass", Password2 = "pass" },
+            new () { Username = "test_user4", Password = "pass", Password2 = "pass" }
         };
 
         [Theory]

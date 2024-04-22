@@ -9,6 +9,5 @@ namespace CommurideModels.DTOs.AppUser
         [Compare("Password2", ErrorMessage = "Le mot de passe doit être identique")]
         public required string Password { get; set; }
         public required string Password2 { get; set; }
-        public required DateTime BirthDate { get; set; }
     }
 }

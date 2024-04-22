@@ -1,6 +1,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using CommurideModels.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Models {
     public class Carpool {
@@ -8,17 +9,20 @@ namespace Models {
         [Required]
         public int Id { get; set; }
         [Required]
-        public string AdresseLeaving { get; set; }
+        public string AddressLeaving { get; set; }
         [Required]
-        public DateTime DateHourReturn { get; set; }
+        public DateTime DateDepart { get; set; }
         [Required]
-        public string AdressArrival { get; set; }
-        public int duration { get; set; }
-        public int distance { get; set; }
+        public string AddressArrival { get; set; }
+        public int Duration { get; set; }
+        public int Distance { get; set; }
         [Required]
-        public AppUser user { get; set; }
+        [DeleteBehavior(DeleteBehavior.NoAction)]
+        public AppUser Driver { get; set; }
         [Required]
-        public Vehicle vehicle { get; set; }
-        public ICollection<AppUser> Users { get; } = new List<AppUser>();
+        [DeleteBehavior(DeleteBehavior.NoAction)]
+        public Vehicle Vehicle { get; set; }
+        [DeleteBehavior(DeleteBehavior.NoAction)]
+        public ICollection<AppUser> Passengers { get; } = new List<AppUser>();
     }
 }

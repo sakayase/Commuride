@@ -9,6 +9,12 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<ApplicationDbContext>( options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("CommurideConnection");
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
+
 builder.Services.AddIdentityApiEndpoints<AppUser>(o =>
 {
     o.Password.RequireDigit = false;
@@ -21,13 +27,9 @@ builder.Services.AddIdentityApiEndpoints<AppUser>(o =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddDbContext<ApplicationDbContext>( options =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("CommurideConnection");
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-});
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<ICarpoolRepository, CarpoolRepository>();
 
 
 builder.Services.AddControllers();
@@ -66,4 +68,6 @@ app.MapControllers();
 
 app.Run();
 
+
+//Expose Program to Tests
 public partial class Program { }
