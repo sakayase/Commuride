@@ -28,6 +28,7 @@ builder.Services.AddDbContext<ApplicationDbContext>( options =>
 });
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 
 
 builder.Services.AddControllers();
