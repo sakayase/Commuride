@@ -52,7 +52,7 @@ namespace Models {
         public StatutVehicle Status{ get; set; }
         [Required]
         public int NbPlaces { get; set; }
-        public AppUser User { get; set; }
+        // public AppUser User { get; set; }
 
     }
 }
