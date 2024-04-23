@@ -46,14 +46,14 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
 
         builder.Entity<Vehicle>().HasData(
-       new Vehicle { Id = 1, Brand = "renault", Category = Vehicle.CategoryVehicle.MiniCitadine, CO2 = 11, Model = "clio", Motorization = Vehicle.MotorisationVehicle.Hybride, NbPlaces = 5, Registration = "OK", status = Vehicle.StatutVehicle.Service, URLPhoto = "" },
-            new Vehicle { Id = 2, Brand = "mazda", Category = Vehicle.CategoryVehicle.Compacte, CO2 = 20, Model = "MX5", Motorization = Vehicle.MotorisationVehicle.Essence, NbPlaces = 2, Registration = "OK", status = Vehicle.StatutVehicle.Service, URLPhoto = "" },
-            new Vehicle { Id = 3, Brand = "renault", Category = Vehicle.CategoryVehicle.Compacte, CO2 = 21, Model = "megane", Motorization = Vehicle.MotorisationVehicle.Diesel, NbPlaces = 5, Registration = "OK", status = Vehicle.StatutVehicle.Service, URLPhoto = "" },
-            new Vehicle { Id = 4, Brand = "wolkswagen", Category = Vehicle.CategoryVehicle.CitadinePolyvalente, CO2 = 20, Model = "polo", Motorization = Vehicle.MotorisationVehicle.Diesel, NbPlaces = 5, Registration = "OK1", status = Vehicle.StatutVehicle.HorsService, URLPhoto = "" },
-            new Vehicle { Id = 5, Brand = "toyota", Category = Vehicle.CategoryVehicle.MiniCitadine, CO2 = 3, Model = "yaris", Motorization = Vehicle.MotorisationVehicle.Hybride, NbPlaces = 5, Registration = "OK", status = Vehicle.StatutVehicle.Service, URLPhoto = "" },
-            new Vehicle { Id = 6, Brand = "tesla", Category = Vehicle.CategoryVehicle.BerlineTailleM, CO2 = 0, Model = "model c", Motorization = Vehicle.MotorisationVehicle.Electrique, NbPlaces = 2, Registration = "OK1", status = Vehicle.StatutVehicle.Service, URLPhoto = "" },
-            new Vehicle { Id = 7, Brand = "bmw", Category = Vehicle.CategoryVehicle.Compacte, CO2 = 24, Model = "serie a", Motorization = Vehicle.MotorisationVehicle.Essence, NbPlaces = 5, Registration = "OK", status = Vehicle.StatutVehicle.Service, URLPhoto = "" },
-            new Vehicle { Id = 8, Brand = "renault", Category = Vehicle.CategoryVehicle.BerlineTailleM, CO2 = 20, Model = "laguna", Motorization = Vehicle.MotorisationVehicle.Ethanol, NbPlaces = 2, Registration = "OK1", status = Vehicle.StatutVehicle.Service, URLPhoto = "" }
+       new Vehicle { Id = 1, Brand = "renault", Category = Vehicle.CategoryVehicle.MiniCitadine, CO2 = 11, Model = "clio", Motorization = Vehicle.MotorizationVehicle.Hybride, NbPlaces = 5, Registration = "OK", Status = Vehicle.StatusVehicle.Service, URLPhoto = "" },
+            new Vehicle { Id = 2, Brand = "mazda", Category = Vehicle.CategoryVehicle.Compacte, CO2 = 20, Model = "MX5", Motorization = Vehicle.MotorizationVehicle.Essence, NbPlaces = 2, Registration = "OK", Status = Vehicle.StatusVehicle.Service, URLPhoto = "" },
+            new Vehicle { Id = 3, Brand = "renault", Category = Vehicle.CategoryVehicle.Compacte, CO2 = 21, Model = "megane", Motorization = Vehicle.MotorizationVehicle.Diesel, NbPlaces = 5, Registration = "OK", Status = Vehicle.StatusVehicle.Service, URLPhoto = "" },
+            new Vehicle { Id = 4, Brand = "wolkswagen", Category = Vehicle.CategoryVehicle.CitadinePolyvalente, CO2 = 20, Model = "polo", Motorization = Vehicle.MotorizationVehicle.Diesel, NbPlaces = 5, Registration = "OK1", Status = Vehicle.StatusVehicle.HorsService, URLPhoto = "" },
+            new Vehicle { Id = 5, Brand = "toyota", Category = Vehicle.CategoryVehicle.MiniCitadine, CO2 = 3, Model = "yaris", Motorization = Vehicle.MotorizationVehicle.Hybride, NbPlaces = 5, Registration = "OK", Status = Vehicle.StatusVehicle.Service, URLPhoto = "" },
+            new Vehicle { Id = 6, Brand = "tesla", Category = Vehicle.CategoryVehicle.BerlineTailleM, CO2 = 0, Model = "model c", Motorization = Vehicle.MotorizationVehicle.Electrique, NbPlaces = 2, Registration = "OK1", Status = Vehicle.StatusVehicle.Service, URLPhoto = "" },
+            new Vehicle { Id = 7, Brand = "bmw", Category = Vehicle.CategoryVehicle.Compacte, CO2 = 24, Model = "serie a", Motorization = Vehicle.MotorizationVehicle.Essence, NbPlaces = 5, Registration = "OK", Status = Vehicle.StatusVehicle.Service, URLPhoto = "" },
+            new Vehicle { Id = 8, Brand = "renault", Category = Vehicle.CategoryVehicle.BerlineTailleM, CO2 = 20, Model = "laguna", Motorization = Vehicle.MotorizationVehicle.Ethanol, NbPlaces = 2, Registration = "OK1", Status = Vehicle.StatusVehicle.Service, URLPhoto = "" }
             );
         base.OnModelCreating(builder);
     }

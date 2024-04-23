@@ -45,7 +45,7 @@ namespace CommurideModels.DTOs.Carpool
         [Required]
         public string? URLPhoto { get; set; }
         [Required]
-        public required MotorisationVehicle Motorization { get; set; }
+        public required MotorizationVehicle Motorization { get; set; }
         [Required]
         public int? CO2 { get; set; }
         [Required]

@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace CommurideModels.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class InitSeed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -143,6 +145,8 @@ namespace CommurideModels.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    PhotoURL = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CarpoolId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -212,32 +216,30 @@ namespace CommurideModels.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    AdresseLeaving = table.Column<string>(type: "longtext", nullable: false)
+                    AddressLeaving = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DateHourReturn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    AdressArrival = table.Column<string>(type: "longtext", nullable: false)
+                    DateDepart = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    AddressArrival = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    duration = table.Column<int>(type: "int", nullable: false),
-                    distance = table.Column<int>(type: "int", nullable: false),
-                    userId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    Duration = table.Column<int>(type: "int", nullable: false),
+                    Distance = table.Column<int>(type: "int", nullable: false),
+                    DriverId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    vehicleId = table.Column<int>(type: "int", nullable: false)
+                    VehicleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Carpools", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Carpools_AspNetUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_Carpools_AspNetUsers_DriverId",
+                        column: x => x.DriverId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Carpools_Vehicles_vehicleId",
-                        column: x => x.vehicleId,
+                        name: "FK_Carpools_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
                         principalTable: "Vehicles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -247,31 +249,54 @@ namespace CommurideModels.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    DateHourLeaving = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    DateHourReturn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    AdressArrival = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    vehicleId = table.Column<int>(type: "int", nullable: false),
-                    userId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    DateHourStart = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DateHourEnd = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    VehicleId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rents_AspNetUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_Rents_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Rents_Vehicles_vehicleId",
-                        column: x => x.vehicleId,
+                        name: "FK_Rents_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "341743f0 - asd2–42de - afbf - 59kmkkmk72cf6", "341743f0 - asd2–42de - afbf - 59kmkkmk72cf6", "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "CarpoolId", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PhotoURL", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "02174cf0–9412–4cfe - afbf - 59f706d72cf6", 0, null, "9dea28de-f221-4602-90cf-df75e542b82a", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEDNt+fJmNe99yDa8kn8jM2J1uUPqOmV86L4sQepxWkx/EJo2bfrDhHY+B5GLWhiTrw==", null, false, "", "2e3443d2-5cba-4d6a-a175-b6eed306b48f", false, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "Vehicles",
+                columns: new[] { "Id", "Brand", "CO2", "Category", "Model", "Motorization", "NbPlaces", "Registration", "Status", "URLPhoto", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "renault", 11, 1, "clio", 3, 5, "OK", 0, "", null },
+                    { 2, "mazda", 20, 3, "MX5", 1, 2, "OK", 0, "", null },
+                    { 3, "renault", 21, 3, "megane", 0, 5, "OK", 0, "", null },
+                    { 4, "wolkswagen", 20, 2, "polo", 0, 5, "OK1", 1, "", null },
+                    { 5, "toyota", 3, 1, "yaris", 3, 5, "OK", 0, "", null },
+                    { 6, "tesla", 0, 5, "model c", 4, 2, "OK1", 0, "", null },
+                    { 7, "bmw", 24, 3, "serie a", 1, 5, "OK", 0, "", null },
+                    { 8, "renault", 20, 5, "laguna", 2, 2, "OK1", 0, "", null }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -316,24 +341,24 @@ namespace CommurideModels.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Carpools_userId",
+                name: "IX_Carpools_DriverId",
                 table: "Carpools",
-                column: "userId");
+                column: "DriverId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Carpools_vehicleId",
+                name: "IX_Carpools_VehicleId",
                 table: "Carpools",
-                column: "vehicleId");
+                column: "VehicleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rents_userId",
+                name: "IX_Rents_UserId",
                 table: "Rents",
-                column: "userId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rents_vehicleId",
+                name: "IX_Rents_VehicleId",
                 table: "Rents",
-                column: "vehicleId");
+                column: "VehicleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_UserId",
@@ -384,7 +409,7 @@ namespace CommurideModels.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Carpools_AspNetUsers_userId",
+                name: "FK_Carpools_AspNetUsers_DriverId",
                 table: "Carpools");
 
             migrationBuilder.DropForeignKey(
