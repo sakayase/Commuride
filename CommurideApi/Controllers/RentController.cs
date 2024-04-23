@@ -12,6 +12,9 @@ using Models;
 
 namespace CommurideApi.Controllers
 {
+    /// <summary>
+    /// Controller for the rents
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class RentController : ControllerBase
@@ -20,12 +23,22 @@ namespace CommurideApi.Controllers
         private readonly IRentRepository _rentRepository;
         private readonly UserManager<AppUser> _userManager;
 
+        /// <summary>
+        /// Controller contructor
+        /// </summary>
+        /// <param name="rentRepository">Rent repository</param>
+        /// <param name="userManager">User manager</param>
         public RentController(IRentRepository rentRepository, UserManager<AppUser> userManager)
         {
             _rentRepository = rentRepository;
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// Gets all rents
+        /// </summary>
+        /// <param name="skip">nb to skip</param>
+        /// <returns></returns>
         [HttpGet()]
         public async Task<ActionResult<List<RentDTO>>> GetRents(int? skip)
         {
@@ -40,6 +53,11 @@ namespace CommurideApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Get the specified rent
+        /// </summary>
+        /// <param name="id">rentID</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<RentDTO>> GetRent(int id)
         {
@@ -50,7 +68,7 @@ namespace CommurideApi.Controllers
             }
             catch (NotFoundException e)
             {
-                return NotFound(e);
+                return NotFound(e.Message);
             }
             catch (Exception ex)
             {
@@ -58,6 +76,11 @@ namespace CommurideApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Post a rent, has to be logged in
+        /// </summary>
+        /// <param name="postRentDTO">rent data</param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<Rent>> PostRent(PostRentDTO postRentDTO)
@@ -69,7 +92,7 @@ namespace CommurideApi.Controllers
             }
             catch (NotFoundException e)
             {
-                return NotFound(e);
+                return NotFound(e.Message);
             }
             catch (Exception ex)
             {
@@ -77,6 +100,12 @@ namespace CommurideApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Update specified rent, has to be logged in
+        /// </summary>
+        /// <param name="rentID">rent to update</param>
+        /// <param name="updateRentDTO">new rent data</param>
+        /// <returns></returns>
         [HttpPut]
         [Authorize]
         public async Task<ActionResult<Carpool>> UpdateRent(int rentID, UpdateRentDTO updateRentDTO)
@@ -88,7 +117,7 @@ namespace CommurideApi.Controllers
             }
             catch (NotFoundException e)
             {
-                return NotFound(e);
+                return NotFound(e.Message);
             }
             catch (Exception ex)
             {
@@ -96,6 +125,11 @@ namespace CommurideApi.Controllers
             }
         }
 
+        /// <summary>
+        /// delete specified rent, has to be logged in
+        /// </summary>
+        /// <param name="rentID"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<ActionResult> DeleteRent(int rentID)
@@ -107,7 +141,7 @@ namespace CommurideApi.Controllers
             }
             catch (NotFoundException e)
             {
-                return NotFound(e);
+                return NotFound(e.Message);
             }
             catch (Exception ex)
             {
@@ -115,6 +149,11 @@ namespace CommurideApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Get the connected user
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="GetConnectedUserException"></exception>
         [ApiExplorerSettings(IgnoreApi = true)]
         [Authorize]
         public async Task<AppUser> GetConnectedUser()

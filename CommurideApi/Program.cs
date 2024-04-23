@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>( options =>
 {
+    options.EnableSensitiveDataLogging(); // DEBUG
     var connectionString = builder.Configuration.GetConnectionString("CommurideConnection");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
