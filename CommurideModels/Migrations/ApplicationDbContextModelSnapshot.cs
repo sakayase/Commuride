@@ -261,35 +261,35 @@ namespace CommurideModels.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AddressArrival")
+                    b.Property<string>("AdressArrival")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("AddressLeaving")
+                    b.Property<string>("AdresseLeaving")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("DateDepart")
+                    b.Property<DateTime>("DateHourReturn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("Distance")
+                    b.Property<int>("distance")
                         .HasColumnType("int");
 
-                    b.Property<string>("DriverId")
+                    b.Property<int>("duration")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VehicleId")
+                    b.Property<int>("vehicleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DriverId");
+                    b.HasIndex("userId");
 
-                    b.HasIndex("VehicleId");
+                    b.HasIndex("vehicleId");
 
                     b.ToTable("Carpools");
                 });
@@ -363,106 +363,19 @@ namespace CommurideModels.Migrations
                     b.Property<int>("status")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("userId")
+                        .IsRequired()
+                    b.HasIndex("UserId");
 
                     b.ToTable("Vehicles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Brand = "renault",
-                            CO2 = 11,
-                            Category = 1,
-                            Model = "clio",
-                            Motorization = 3,
-                            NbPlaces = 5,
-                            Registration = "OK",
                             URLPhoto = "",
                             status = 0
                         },
                         new
                         {
-                            Id = 2,
-                            Brand = "mazda",
-                            CO2 = 20,
-                            Category = 3,
-                            Model = "MX5",
-                            Motorization = 1,
-                            NbPlaces = 2,
-                            Registration = "OK",
-                            URLPhoto = "",
-                            status = 0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Brand = "renault",
-                            CO2 = 21,
-                            Category = 3,
-                            Model = "megane",
-                            Motorization = 0,
-                            NbPlaces = 5,
-                            Registration = "OK",
-                            URLPhoto = "",
-                            status = 0
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Brand = "wolkswagen",
-                            CO2 = 20,
-                            Category = 2,
-                            Model = "polo",
-                            Motorization = 0,
-                            NbPlaces = 5,
-                            Registration = "OK1",
-                            URLPhoto = "",
-                            status = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Brand = "toyota",
-                            CO2 = 3,
-                            Category = 1,
-                            Model = "yaris",
-                            Motorization = 3,
-                            NbPlaces = 5,
-                            Registration = "OK",
-                            URLPhoto = "",
-                            status = 0
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Brand = "tesla",
-                            CO2 = 0,
-                            Category = 5,
-                            Model = "model c",
-                            Motorization = 4,
-                            NbPlaces = 2,
-                            Registration = "OK1",
-                            URLPhoto = "",
-                            status = 0
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Brand = "bmw",
-                            CO2 = 24,
-                            Category = 3,
-                            Model = "serie a",
-                            Motorization = 1,
-                            NbPlaces = 5,
-                            Registration = "OK",
-                            URLPhoto = "",
-                            status = 0
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Brand = "renault",
+                        .WithMany("Passengers")
+                        .HasForeignKey("CarpoolId")
+                        .OnDelete(DeleteBehavior.NoAction);
                             CO2 = 20,
                             Category = 5,
                             Model = "laguna",
@@ -477,9 +390,8 @@ namespace CommurideModels.Migrations
             modelBuilder.Entity("CommurideModels.Models.AppUser", b =>
                 {
                     b.HasOne("Models.Carpool", null)
-                        .WithMany("Passengers")
-                        .HasForeignKey("CarpoolId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .WithMany("Users")
+                        .HasForeignKey("CarpoolId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -519,61 +431,73 @@ namespace CommurideModels.Migrations
 
                     b.HasOne("CommurideModels.Models.AppUser", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                    b.HasOne("CommurideModels.Models.AppUser", "Driver")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.NoAction)
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
+                    b.HasOne("Models.Vehicle", "Vehicle")
                     b.HasOne("CommurideModels.Models.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Models.Carpool", b =>
                 {
-                    b.HasOne("CommurideModels.Models.AppUser", "Driver")
+                    b.HasOne("CommurideModels.Models.AppUser", "user")
                         .WithMany()
-                        .HasForeignKey("DriverId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Models.Vehicle", "Vehicle")
+                        .HasForeignKey("userId")
+                    b.HasOne("Models.Vehicle", "vehicle")
                         .WithMany()
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasForeignKey("vehicleId")
+                    b.HasOne("Models.Vehicle", "vehicle")
                         .IsRequired();
+                        .HasForeignKey("vehicleId")
+                    b.Navigation("user");
 
-                    b.Navigation("Driver");
+                    b.Navigation("vehicle");
+                    b.Navigation("user");
 
-                    b.Navigation("Vehicle");
+                    b.Navigation("vehicle");
                 });
 
-            modelBuilder.Entity("Models.Rent", b =>
+            modelBuilder.Entity("Models.Vehicle", b =>
                 {
                     b.HasOne("CommurideModels.Models.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserId");
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Models.Vehicle", "Vehicle")
-                        .WithMany()
+                    b.Navigation("User");
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("user");
 
-                    b.Navigation("Vehicle");
+                    b.Navigation("vehicle");
+                });
+
+            modelBuilder.Entity("Models.Vehicle", b =>
+                {
+                    b.HasOne("CommurideModels.Models.AppUser", "user")
+                        .WithMany()
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("Models.Carpool", b =>
                 {
-                    b.Navigation("Passengers");
+                    b.Navigation("Users");
+
                 });
 #pragma warning restore 612, 618
         }
