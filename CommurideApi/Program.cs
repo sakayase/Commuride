@@ -30,6 +30,8 @@ builder.Services.AddIdentityApiEndpoints<AppUser>(o =>
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<ICarpoolRepository, CarpoolRepository>();
+builder.Services.AddScoped<IRentRepository, RentRepository>();
+
 
 
 builder.Services.AddControllers();
