@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using static Models.Vehicle;
 
 namespace CommurideModels.DTOs.Vehicle
