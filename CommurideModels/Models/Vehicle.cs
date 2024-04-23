@@ -1,9 +1,10 @@
 
 using System.ComponentModel.DataAnnotations;
-using CommurideModels.Models;
 
-namespace Models {
-    public class Vehicle {
+namespace Models
+{
+    public class Vehicle
+    {
 
         public enum CategoryVehicle
         {
@@ -49,10 +50,9 @@ namespace Models {
         [Required]
         public int CO2 { get; set; }
         [Required]
-        public StatutVehicle status{ get; set; }
+        public StatutVehicle status { get; set; }
         [Required]
         public int NbPlaces { get; set; }
-        public AppUser user { get; set; }
 
     }
 }

@@ -4,6 +4,7 @@ using CommurideModels.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommurideModels.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240423123249_seed data and delete user from vehicle")]
+    partial class seeddataanddeleteuserfromvehicle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,23 +96,6 @@ namespace CommurideModels.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "02174cf0–9412–4cfe - afbf - 59f706d72cf6",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "9d06d3bf-cbae-46e7-9d27-57ce55d1eff1",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAECzPa9iuRMY9Crl9Eb70PQYKl85eqIqJSbcYnjyrwfq7cfWmxrSdtodvzLhjPJVfdA==",
-                            PhoneNumberConfirmed = false,
-                            PhotoURL = "",
-                            SecurityStamp = "149df3b8-d72d-4e08-91db-da8108d0c204",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -136,15 +122,6 @@ namespace CommurideModels.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "341743f0 - asd2–42de - afbf - 59kmkkmk72cf6",
-                            ConcurrencyStamp = "341743f0 - asd2–42de - afbf - 59kmkkmk72cf6",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -389,84 +366,6 @@ namespace CommurideModels.Migrations
                             Category = 3,
                             Model = "MX5",
                             Motorization = 1,
-                            NbPlaces = 2,
-                            Registration = "OK",
-                            URLPhoto = "",
-                            status = 0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Brand = "renault",
-                            CO2 = 21,
-                            Category = 3,
-                            Model = "megane",
-                            Motorization = 0,
-                            NbPlaces = 5,
-                            Registration = "OK",
-                            URLPhoto = "",
-                            status = 0
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Brand = "wolkswagen",
-                            CO2 = 20,
-                            Category = 2,
-                            Model = "polo",
-                            Motorization = 0,
-                            NbPlaces = 5,
-                            Registration = "OK1",
-                            URLPhoto = "",
-                            status = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Brand = "toyota",
-                            CO2 = 3,
-                            Category = 1,
-                            Model = "yaris",
-                            Motorization = 3,
-                            NbPlaces = 5,
-                            Registration = "OK",
-                            URLPhoto = "",
-                            status = 0
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Brand = "tesla",
-                            CO2 = 0,
-                            Category = 5,
-                            Model = "model c",
-                            Motorization = 4,
-                            NbPlaces = 2,
-                            Registration = "OK1",
-                            URLPhoto = "",
-                            status = 0
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Brand = "bmw",
-                            CO2 = 24,
-                            Category = 3,
-                            Model = "serie a",
-                            Motorization = 1,
-                            NbPlaces = 5,
-                            Registration = "OK",
-                            URLPhoto = "",
-                            status = 0
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Brand = "renault",
-                            CO2 = 20,
-                            Category = 5,
-                            Model = "laguna",
-                            Motorization = 2,
                             NbPlaces = 2,
                             Registration = "OK1",
                             URLPhoto = "",
