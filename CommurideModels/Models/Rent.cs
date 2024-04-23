@@ -8,15 +8,13 @@ namespace Models {
         [Required]
         public int Id { get; set; }
         [Required]
-        public DateTime DateHourLeaving { get; set; }
+        public DateTime DateHourStart { get; set; }
         [Required]
-        public DateTime DateHourReturn { get; set; }
+        public DateTime DateHourEnd { get; set; }
         [Required]
-        public string AdressArrival { get; set; }
+        public Vehicle Vehicle { get; set; }
         [Required]
-        public Vehicle vehicle{ get; set; }
-        [Required]
-        public AppUser user{ get; set; }
+        public AppUser User { get; set; }
 
     }
 }

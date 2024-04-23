@@ -4,6 +4,7 @@ using CommurideModels.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommurideModels.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240422141132_Add Models")]
+    partial class AddModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,35 +238,35 @@ namespace CommurideModels.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AdressArrival")
+                    b.Property<string>("AddressArrival")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("AdresseLeaving")
+                    b.Property<string>("AddressLeaving")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("DateHourReturn")
+                    b.Property<DateTime>("DateDepart")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("distance")
+                    b.Property<int>("Distance")
                         .HasColumnType("int");
 
-                    b.Property<int>("duration")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userId")
+                    b.Property<string>("DriverId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("vehicleId")
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VehicleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("DriverId");
 
-                    b.HasIndex("vehicleId");
+                    b.HasIndex("VehicleId");
 
                     b.ToTable("Carpools");
                 });
@@ -334,19 +337,20 @@ namespace CommurideModels.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
                     b.Property<string>("URLPhoto")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UserId")
+                    b.Property<int>("status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userId")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("userId");
 
                     b.ToTable("Vehicles");
                 });
@@ -354,8 +358,9 @@ namespace CommurideModels.Migrations
             modelBuilder.Entity("CommurideModels.Models.AppUser", b =>
                 {
                     b.HasOne("Models.Carpool", null)
-                        .WithMany("Users")
-                        .HasForeignKey("CarpoolId");
+                        .WithMany("Passengers")
+                        .HasForeignKey("CarpoolId")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -411,21 +416,21 @@ namespace CommurideModels.Migrations
 
             modelBuilder.Entity("Models.Carpool", b =>
                 {
-                    b.HasOne("CommurideModels.Models.AppUser", "user")
+                    b.HasOne("CommurideModels.Models.AppUser", "Driver")
                         .WithMany()
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Models.Vehicle", "vehicle")
+                    b.HasOne("Models.Vehicle", "Vehicle")
                         .WithMany()
-                        .HasForeignKey("vehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("user");
+                    b.Navigation("Driver");
 
-                    b.Navigation("vehicle");
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("Models.Rent", b =>
@@ -449,17 +454,18 @@ namespace CommurideModels.Migrations
 
             modelBuilder.Entity("Models.Vehicle", b =>
                 {
-                    b.HasOne("CommurideModels.Models.AppUser", "User")
+                    b.HasOne("CommurideModels.Models.AppUser", "user")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("Models.Carpool", b =>
                 {
-                    b.Navigation("Users");
-
+                    b.Navigation("Passengers");
                 });
 #pragma warning restore 612, 618
         }
