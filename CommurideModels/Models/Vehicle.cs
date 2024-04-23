@@ -17,7 +17,7 @@ namespace Models {
             SUVPickUpTT
         }
 
-        public enum MotorisationVehicle
+        public enum MotorizationVehicle
         {
             Diesel,
             Essence,
@@ -26,10 +26,11 @@ namespace Models {
             Electrique
         }
 
-        public enum StatutVehicle
+        public enum StatusVehicle
         {
             Service,
             HorsService,
+            Reparation
         }
 
         [Required]
@@ -45,14 +46,14 @@ namespace Models {
         [Required]
         public string URLPhoto { get; set; }
         [Required]
-        public MotorisationVehicle Motorization { get; set; }
+        public MotorizationVehicle Motorization { get; set; }
         [Required]
         public int CO2 { get; set; }
         [Required]
-        public StatutVehicle Status{ get; set; }
+        public StatusVehicle Status{ get; set; }
         [Required]
         public int NbPlaces { get; set; }
-        // public AppUser User { get; set; }
-
+        public AppUser? User { get; set; }
+        public ICollection<Rent>? Rents { get; } = new List<Rent>();
     }
 }

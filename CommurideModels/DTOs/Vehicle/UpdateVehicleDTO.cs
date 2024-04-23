@@ -5,12 +5,14 @@ namespace CommurideModels.DTOs.Vehicle
 {
     public class UpdateVehicleDTO
     {
-        public required int VehicleId { get; set; }
-        public required string Brand { get; set; }
-        public required string Model { get; set; }
-        public required CategoryVehicle Category { get; set; }
-        public required string URLPhoto { get; set; }
-        public required int CO2 { get; set; }
-        public required StatutVehicle status{ get; set; }
+        public string? Registration { get; set; }
+        public string? Brand { get; set; }
+        public string? Model { get; set; }
+        public CategoryVehicle? Category { get; set; }
+        public string? URLPhoto { get; set; }
+        public int? CO2 { get; set; }
+        public MotorizationVehicle? Motorization { get; set; }
+        public StatusVehicle? Status{ get; set; }
+        public int? NbPlaces { get; set; }
     }
 }

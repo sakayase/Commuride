@@ -1,5 +1,6 @@
 
 using CommurideModels.DTOs.Vehicle;
+using CommurideModels.Exceptions;
 using CommurideModels.Models;
 using CommurideRepositories.IRepositories;
 using Microsoft.AspNetCore.Authorization;
@@ -13,10 +14,12 @@ namespace CommurideApi.Controllers {
     public class VehicleController : ControllerBase
     {
         private readonly IVehicleRepository _vehicleRepository;
+        private readonly UserManager<AppUser> _userManager;
 
-        public VehicleController(IVehicleRepository vehicleRepository)
+        public VehicleController(IVehicleRepository vehicleRepository, UserManager<AppUser> userManager)
         {
             this._vehicleRepository = vehicleRepository;
+            this._userManager = userManager;
         }
 
         [HttpGet]
@@ -36,15 +39,14 @@ namespace CommurideApi.Controllers {
             return Ok(vehicleDTO);
         }
 
-        [HttpPut("UpdateVehicle/{id}")]
+        [HttpPut("{id}")]
         // [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> PutVehicle(int id, UpdateVehicleDTO vehicleDTO)
+        public async Task<ActionResult<Vehicle>> UpdateVehicle(int id, UpdateVehicleDTO vehicleDTO)
         {
-            await _vehicleRepository.UpdateVehicle(vehicleDTO);
-
-            return NoContent();
+            Vehicle vehicle = await _vehicleRepository.UpdateVehicle(id, vehicleDTO);
+            return Ok(vehicle);
         }
 
         [HttpPost]
@@ -65,6 +67,18 @@ namespace CommurideApi.Controllers {
         {
             await _vehicleRepository.DeleteVehicle(id);
             return NoContent();
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [Authorize]
+        public async Task<AppUser> GetConnectedUser()
+        {
+            var appUser = await _userManager.GetUserAsync(User);
+            if (appUser == null)
+            {
+                throw new GetConnectedUserException();
+            }
+            return appUser;
         }
     }
 }

@@ -8,11 +8,11 @@ using Models;
 namespace CommurideRepositories.Repositories {
     public class VehicleRepository : IVehicleRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _context;
 
         public VehicleRepository(ApplicationDbContext context)
         {
-            this._dbContext = context;
+            _context = context;
         }
 
         public async Task<Vehicle> CreateVehicle( CreateVehicleDTO vehicleDTO)
@@ -29,8 +29,8 @@ namespace CommurideRepositories.Repositories {
                 Status = vehicleDTO.Status,
                 NbPlaces = vehicleDTO.NbPlaces
             };
-            _dbContext.Add(vehicle);
-            await _dbContext.SaveChangesAsync();
+            _context.Add(vehicle);
+            await _context.SaveChangesAsync();
             return vehicle;
 
 
@@ -38,15 +38,16 @@ namespace CommurideRepositories.Repositories {
 
         public async Task DeleteVehicle( int VehicleId)
         {
-            Vehicle? vehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(x => VehicleId == x.Id);
-            _dbContext.Vehicles.Remove(vehicle!);
-            await _dbContext.SaveChangesAsync();
+            Vehicle? vehicle = await _context.Vehicles.FirstOrDefaultAsync(x => VehicleId == x.Id);
+            _context.Vehicles.Remove(vehicle!);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<GetVehicleDTO?> Get(int VehicleId)
         {
-            return await _dbContext.Vehicles.Select(x => new GetVehicleDTO()
+            return await _context.Vehicles.Select(x => new GetVehicleDTO()
             {
+                Id = x.Id,
                 Registration = x.Registration,
                 Brand = x.Brand,
                 Model = x.Model,
@@ -61,8 +62,9 @@ namespace CommurideRepositories.Repositories {
 
         public async Task<List<GetAllVehicleDTO>> GetAll()
         {
-            List<GetAllVehicleDTO> vehicles = await _dbContext.Vehicles.Select(x => new GetAllVehicleDTO()
+            List<GetAllVehicleDTO> vehicles = await _context.Vehicles.Select(x => new GetAllVehicleDTO()
             {
+                Id = x.Id,
                 Registration = x.Registration,
                 Brand = x.Brand,
                 Model = x.Model,
@@ -76,11 +78,11 @@ namespace CommurideRepositories.Repositories {
             return vehicles;
         }
 
-        public async Task<Vehicle> UpdateVehicle( UpdateVehicleDTO vehicleDTO)
+        public async Task<Vehicle> UpdateVehicle(int VehicleId, UpdateVehicleDTO vehicleDTO)
         {
-            Vehicle? vehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(x => x.Id == vehicleDTO.VehicleId);
-            _dbContext.Update(vehicle);
-            await _dbContext.SaveChangesAsync();
+            Vehicle? vehicle = await _context.Vehicles.FirstOrDefaultAsync(x => x.Id == VehicleId);
+            _context.Update(vehicle);
+            await _context.SaveChangesAsync();
             return vehicle;
         }
     }

@@ -5,7 +5,7 @@ using CommurideModels.Models;
 namespace Models {
     public class Rent {
 
-       [Required]
+        [Required]
         public int Id { get; set; }
         [Required]
         public DateTime DateHourLeaving { get; set; }
