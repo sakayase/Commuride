@@ -235,35 +235,35 @@ namespace CommurideModels.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AddressArrival")
+                    b.Property<string>("AdressArrival")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("AddressLeaving")
+                    b.Property<string>("AdresseLeaving")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("DateDepart")
+                    b.Property<DateTime>("DateHourReturn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("Distance")
+                    b.Property<int>("distance")
                         .HasColumnType("int");
 
-                    b.Property<string>("DriverId")
+                    b.Property<int>("duration")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VehicleId")
+                    b.Property<int>("vehicleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DriverId");
+                    b.HasIndex("userId");
 
-                    b.HasIndex("VehicleId");
+                    b.HasIndex("vehicleId");
 
                     b.ToTable("Carpools");
                 });
@@ -334,20 +334,19 @@ namespace CommurideModels.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<string>("URLPhoto")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userId")
-                        .IsRequired()
+                    b.Property<string>("UserId")
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Vehicles");
                 });
@@ -355,9 +354,8 @@ namespace CommurideModels.Migrations
             modelBuilder.Entity("CommurideModels.Models.AppUser", b =>
                 {
                     b.HasOne("Models.Carpool", null)
-                        .WithMany("Passengers")
-                        .HasForeignKey("CarpoolId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .WithMany("Users")
+                        .HasForeignKey("CarpoolId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -413,21 +411,21 @@ namespace CommurideModels.Migrations
 
             modelBuilder.Entity("Models.Carpool", b =>
                 {
-                    b.HasOne("CommurideModels.Models.AppUser", "Driver")
+                    b.HasOne("CommurideModels.Models.AppUser", "user")
                         .WithMany()
-                        .HasForeignKey("DriverId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Models.Vehicle", "Vehicle")
+                    b.HasOne("Models.Vehicle", "vehicle")
                         .WithMany()
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasForeignKey("vehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Driver");
+                    b.Navigation("user");
 
-                    b.Navigation("Vehicle");
+                    b.Navigation("vehicle");
                 });
 
             modelBuilder.Entity("Models.Rent", b =>
@@ -451,18 +449,17 @@ namespace CommurideModels.Migrations
 
             modelBuilder.Entity("Models.Vehicle", b =>
                 {
-                    b.HasOne("CommurideModels.Models.AppUser", "user")
+                    b.HasOne("CommurideModels.Models.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("user");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Models.Carpool", b =>
                 {
-                    b.Navigation("Passengers");
+                    b.Navigation("Users");
+
                 });
 #pragma warning restore 612, 618
         }
