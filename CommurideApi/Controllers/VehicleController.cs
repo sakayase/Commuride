@@ -39,6 +39,24 @@ namespace CommurideApi.Controllers {
             return Ok(vehicleDTO);
         }
 
+        [HttpGet("{registration}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<GetVehicleDTO>> GetVehicleByRegistration (string registration)
+        { 
+            GetVehicleDTO? vehicleDTO = await _vehicleRepository.GetVehicleByRegistration(registration);
+            if (vehicleDTO == null) { return NotFound(); }
+            return Ok(vehicleDTO);
+        }
+
+        [HttpGet("{brand}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<GetVehicleDTO>>> GetVehicleByBrand (string brand)
+        { 
+            return await _vehicleRepository.GetVehicleByBrand(brand);
+        }
+
         [HttpPut("{id}")]
         // [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
