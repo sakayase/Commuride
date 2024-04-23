@@ -1,5 +1,6 @@
 
 using System.ComponentModel.DataAnnotations;
+using CommurideModels.DTOs.Vehicle;
 using CommurideModels.Models;
 
 namespace Models {
@@ -55,5 +56,6 @@ namespace Models {
         public int NbPlaces { get; set; }
         public AppUser? User { get; set; }
         public ICollection<Rent>? Rents { get; } = new List<Rent>();
+
     }
 }

@@ -43,10 +43,22 @@ namespace CommurideApi.Controllers {
         // [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<Vehicle>> UpdateVehicle(int id, UpdateVehicleDTO vehicleDTO)
+        public async Task<IActionResult> UpdateVehicle(int id, UpdateVehicleDTO vehicleDTO)
         {
-            Vehicle vehicle = await _vehicleRepository.UpdateVehicle(id, vehicleDTO);
-            return Ok(vehicle);
+            if (vehicleDTO == null)
+            {
+                return BadRequest("Vehicle is null");
+            }
+
+            var vehicleToUpdate = await _vehicleRepository.Get(id);
+            if(vehicleToUpdate == null)
+            {
+                return NotFound("Vehicle counldn't be found");
+            }
+
+            await _vehicleRepository.UpdateVehicle( vehicleDTO);
+
+            return NoContent();
         }
 
         [HttpPost]
