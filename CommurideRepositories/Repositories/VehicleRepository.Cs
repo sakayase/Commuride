@@ -43,7 +43,8 @@ namespace CommurideRepositories.Repositories {
 
         public async Task<GetVehicleDTO?> Get(int VehicleId)
         {
-            return await _context.Vehicles.Select(x => new GetVehicleDTO()
+            return await _context.Vehicles
+            .Select(x => new GetVehicleDTO()
             {
                 Id = x.Id,
                 Registration = x.Registration,
@@ -55,7 +56,7 @@ namespace CommurideRepositories.Repositories {
                 CO2 =   x.CO2,
                 Status = x.Status,
                 NbPlaces = x.NbPlaces
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(x => x.Id == VehicleId);
         }
 
         public async Task<List<GetAllVehicleDTO>> GetAll()
@@ -98,7 +99,8 @@ namespace CommurideRepositories.Repositories {
 
         public async Task<GetVehicleDTO?> GetVehicleByRegistration(string registration)
         {
-            return await _context.Vehicles.Select(x => new GetVehicleDTO()
+            return await _context.Vehicles
+            .Select(x => new GetVehicleDTO()
             {
                 Id = x.Id,
                 Registration = x.Registration,
@@ -110,7 +112,7 @@ namespace CommurideRepositories.Repositories {
                 CO2 =   x.CO2,
                 Status = x.Status,
                 NbPlaces = x.NbPlaces
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(x => x.Registration == registration);
         }
 
         public async Task<Vehicle> UpdateVehicle(UpdateVehicleDTO vehicleDTO)
