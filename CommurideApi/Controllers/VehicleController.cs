@@ -32,11 +32,35 @@ namespace CommurideApi.Controllers {
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<GetVehicleDTO>>> GetVehicle(int id)
+        public async Task<ActionResult<GetVehicleDTO>> GetVehicle(int id)
         {
-            GetVehicleDTO? vehicleDTO = await _vehicleRepository.Get(id);
-            if (vehicleDTO == null) { return NotFound(); }
-            return Ok(vehicleDTO);
+            var vehicles = await _vehicleRepository.Get(id);
+            if (vehicles == null)
+            {
+                return NotFound("Vehicle not found.");
+            }
+            return Ok(vehicles);
+        }
+
+        [HttpGet("{registration}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<GetVehicleDTO>> GetVehicleByRegistration (string registration)
+        { 
+            var vehicles = await _vehicleRepository.GetVehicleByRegistration(registration);
+            if (vehicles == null)
+            {
+                return NotFound("Vehicle not found.");
+            }
+            return Ok(vehicles);
+        }
+
+        [HttpGet("{brand}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<GetVehicleDTO>>> GetVehicleByBrand (string brand)
+        { 
+            return await _vehicleRepository.GetVehicleByBrand(brand);
         }
 
         [HttpPut("{id}")]
