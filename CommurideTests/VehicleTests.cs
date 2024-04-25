@@ -4,17 +4,16 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace CommurideTests
 {
-    [Trait("Category", "VehicleController")]
-public class VehicleControllerTests : IClassFixture<CommurideWebApplicationFactory<Program>>
+    [Trait("Category", "VehicleTests")]
+public class VehicleTests : IClassFixture<CommurideWebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
     private readonly CommurideWebApplicationFactory<Program> _factory;
 
-    public VehicleControllerTests(CommurideWebApplicationFactory<Program> factory)
+    public VehicleTests(CommurideWebApplicationFactory<Program> factory)
     {
         _factory = factory;
         _client = _factory.CreateClient();
@@ -22,7 +21,7 @@ public class VehicleControllerTests : IClassFixture<CommurideWebApplicationFacto
 
     // Use of TheoryData for strongly typed data tests
     public static TheoryData<CreateVehicleDTO> CreateTestData = new TheoryData<CreateVehicleDTO>() {
-        new CreateVehicleDTO { VehicleId = 100, Registration = "SG-267-ZT", Brand = "BrandTest", Model = "ModelTest", Category = (Models.Vehicle.CategoryVehicle)1, CO2=10, Motorization=(Models.Vehicle.MotorizationVehicle)2, NbPlaces = 2, Status = (Models.Vehicle.StatusVehicle)1, URLPhoto = "urltest" },
+        new CreateVehicleDTO { VehicleId = 666, Registration = "SG-267-ZT", Brand = "BrandTest", Model = "ModelTest", Category = (Models.Vehicle.CategoryVehicle)1, CO2=10, Motorization=(Models.Vehicle.MotorizationVehicle)2, NbPlaces = 2, Status = (Models.Vehicle.StatusVehicle)1, URLPhoto = "urltest" },
     };
 
     [Theory]
