@@ -24,6 +24,7 @@ namespace CommurideApi.Controllers {
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<GetAllVehicleDTO>>> GetAllVehicles()
         {
             return await _vehicleRepository.GetAll();
@@ -103,18 +104,6 @@ namespace CommurideApi.Controllers {
         {
             await _vehicleRepository.DeleteVehicle(id);
             return NoContent();
-        }
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [Authorize]
-        public async Task<AppUser> GetConnectedUser()
-        {
-            var appUser = await _userManager.GetUserAsync(User);
-            if (appUser == null)
-            {
-                throw new GetConnectedUserException();
-            }
-            return appUser;
         }
     }
 }
