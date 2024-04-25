@@ -1,4 +1,6 @@
-﻿using CommurideModels.DTOs.Rent;
+﻿using CommurideModels.DTOs.AppUser;
+using CommurideModels.DTOs.Rent;
+using CommurideModels.DTOs.Vehicle;
 using Models;
 
 namespace CommurideModels.Helpers
@@ -17,12 +19,12 @@ namespace CommurideModels.Helpers
                 Id = rent.Id,
                 DateStart = rent.DateHourStart,
                 DateEnd = rent.DateHourEnd,
-                AppUser = new RentAppUserDTO()
+                AppUser = rent.User != null ? new AppUserDTO()
                 {
                     Id = rent.User.Id,
                     Username = rent.User.UserName ?? "noname",
-                },
-                Vehicle = new RentVehicleDTO()
+                } : null,
+                Vehicle = rent.Vehicle != null ? new GetVehicleDTO()
                 {
                     Id = rent.Vehicle.Id,
                     Brand = rent.Vehicle.Brand,
@@ -32,7 +34,9 @@ namespace CommurideModels.Helpers
                     Motorization = rent.Vehicle.Motorization,
                     Model = rent.Vehicle.Model,
                     URLPhoto = rent.Vehicle.URLPhoto,
-                },
+                    Registration = rent.Vehicle.Registration,
+                    Status = rent.Vehicle.Status,
+                } : null,
             };
         }
 
