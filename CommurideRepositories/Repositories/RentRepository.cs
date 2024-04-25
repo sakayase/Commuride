@@ -19,7 +19,7 @@ namespace CommurideRepositories.Repositories
         }
         
         /// <summary>
-        /// Get a rend with specified id
+        /// Get a rent with specified id
         /// </summary>
         /// <param name="id">id of the rent to return</param>
         /// <returns></returns>
@@ -169,5 +169,24 @@ namespace CommurideRepositories.Repositories
             return false;
         }
 
+        public async Task<List<RentDTO>> GetUserRents(AppUser appUser) 
+        {
+            return await _context.Rents
+                .Where(r => r.User.Id == appUser.Id)
+                .Select(r => Helpers.RentToRentDTO(r))
+                .ToListAsync();
+        }
+
+        public async Task<List<RentDTO>> GetUserRentsFromPeriodAndVehicleId(AppUser appUser, DateTime startDate, DateTime endDate, int vehicleId)
+        {
+            var Rents = await _context.Rents
+                .Where(r => r.User.Id == appUser.Id)
+                .Where(r => r.Vehicle.Id == vehicleId)
+                .ToListAsync();
+            return Rents
+                .Where(r => Helpers.IsRentInDateTime(r, startDate, endDate))
+                .Select(r => Helpers.RentToRentDTO(r))
+                .ToList();
+        }
     }
 }

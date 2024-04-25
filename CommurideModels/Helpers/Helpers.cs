@@ -1,4 +1,5 @@
 ﻿using CommurideModels.DTOs.AppUser;
+using CommurideModels.DTOs.Carpool;
 using CommurideModels.DTOs.Rent;
 using CommurideModels.DTOs.Vehicle;
 using Models;
@@ -39,6 +40,43 @@ namespace CommurideModels.Helpers
                 } : null,
             };
         }
+        /// <summary>
+        /// Convert a carpool entity to a carpool DTO
+        /// </summary>
+        /// <param name="carpool"></param>
+        /// <returns></returns>
+        static public CarpoolDTO CarpoolToCarpoolDTO(Carpool carpool)
+        {
+            return new CarpoolDTO()
+            {
+                AddressArrival = carpool.AddressArrival,
+                AddressLeaving = carpool.AddressLeaving,
+                DateDepart = carpool.DateDepart,
+                Id = carpool.Id,
+                Driver = carpool.Driver != null ? new CarpoolAppUserDTO()
+                {
+                    Id = carpool.Driver.Id,
+                    Username = carpool.Driver.UserName ?? "noname",
+                } : null,
+                VehicleDTO = new CarpoolVehicleDTO()
+                {
+                    Id = carpool.Vehicle.Id,
+                    Brand = carpool.Vehicle.Brand,
+                    Category = carpool.Vehicle.Category,
+                    CO2 = carpool.Vehicle.CO2,
+                    NbPlaces = carpool.Vehicle.NbPlaces,
+                    Motorization = carpool.Vehicle.Motorization,
+                    Model = carpool.Vehicle.Model,
+                    URLPhoto = carpool.Vehicle.URLPhoto,
+                },
+                Passengers = carpool.Passengers
+                    .Select(u => new CarpoolAppUserDTO()
+                    {
+                        Id = u.Id,
+                        Username = u.UserName ?? "noname",
+                    }).ToList(),
+            };
+        }
 
         /// <summary>
         /// Check if a rent period is outside the period between startDate and endDate
@@ -49,13 +87,33 @@ namespace CommurideModels.Helpers
         /// <returns></returns>
         static public bool IsRentOutsideDateTime(Rent rent, DateTime startDate, DateTime endDate)
         {
-            Console.WriteLine($"{rent.DateHourStart} < {startDate} : {rent.DateHourStart < startDate}");
-            Console.WriteLine($"{rent.DateHourEnd} < {startDate} : {rent.DateHourEnd < startDate}");
-            Console.WriteLine($"{rent.DateHourStart} > {endDate} : {rent.DateHourStart > endDate}");
-            Console.WriteLine($"{rent.DateHourEnd} > {endDate} : {rent.DateHourEnd > endDate}");
             var result = ((rent.DateHourStart < startDate) && (rent.DateHourEnd < startDate)) || ((rent.DateHourStart > endDate) && (rent.DateHourEnd > endDate));
-            Console.WriteLine(result);
             return result;
+        }
+
+        /// <summary>
+        /// Check if a period (startDate to endDate) is inside the rent period
+        /// </summary>
+        /// <param name="rent">Rent to check</param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        static public bool IsRentInDateTime(Rent rent, DateTime startDate, DateTime endDate)
+        {
+            var result = (rent.DateHourStart <= startDate) && (rent.DateHourEnd >= endDate);
+            return result;
+        }
+
+        /// <summary>
+        /// Calculate the remaining places in a carpool
+        /// </summary>
+        /// <param name="carpool"></param>
+        /// <returns></returns>
+        static public int CalculatePlaceLeft(Carpool carpool)
+        {
+            var nbPlaces = carpool.Vehicle.NbPlaces;
+            var nbPassagers = carpool.Passengers.Count;
+            return nbPlaces - nbPassagers;
         }
     }
 }

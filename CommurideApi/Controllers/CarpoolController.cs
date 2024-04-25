@@ -9,19 +9,35 @@ using Models;
 
 namespace CommurideApi.Controllers
 {
+    /// <summary>
+    /// Controller of carpools
+    /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class CarpoolController : ControllerBase
     {
         private readonly ICarpoolRepository _carpoolRepository;
         private readonly UserManager<AppUser> _userManager;
-
+        /// <summary>
+        /// Constructor of carpool controller
+        /// </summary>
+        /// <param name="carpoolRepository"></param>
+        /// <param name="userManager"></param>
         public CarpoolController(ICarpoolRepository carpoolRepository, UserManager<AppUser> userManager)
         {
             _carpoolRepository = carpoolRepository;
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// List all carpools matching the parameters
+        /// </summary>
+        /// <param name="skip"></param>
+        /// <param name="addressArrival"></param>
+        /// <param name="addressLeaving"></param>
+        /// <param name="dateDepart">minimal date of departure</param>
+        /// <param name="numberPassenger">minimal numb of passenger seat left</param>
+        /// <returns></returns>
         [HttpGet()]
         public async Task<ActionResult<List<CarpoolDTO>>> GetCarpools(int? skip, string? addressArrival, string? addressLeaving, DateTime dateDepart, int numberPassenger)
         {
@@ -42,6 +58,11 @@ namespace CommurideApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Get a carpool by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<CarpoolDTO>> GetCarpool(int id)
         {
@@ -52,7 +73,7 @@ namespace CommurideApi.Controllers
             }
             catch (NotFoundException e)
             {
-                return NotFound(e);
+                return NotFound(e.Message);
             }
             catch (Exception ex)
             {
@@ -60,6 +81,11 @@ namespace CommurideApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Post a carpool, have to be logged in 
+        /// </summary>
+        /// <param name="postCarpoolDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<Carpool>> PostCarpool(PostCarpoolDTO postCarpoolDTO)
@@ -71,7 +97,7 @@ namespace CommurideApi.Controllers
             }
             catch (NotFoundException e)
             {
-                return NotFound(e);
+                return NotFound(e.Message);
             }
             catch (Exception ex)
             {
@@ -79,6 +105,12 @@ namespace CommurideApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Update a carpool that belongs to the connected user, have to be logged in
+        /// </summary>
+        /// <param name="carpoolID"></param>
+        /// <param name="updateCarpoolDTO"></param>
+        /// <returns></returns>
         [HttpPut]
         [Authorize]
         public async Task<ActionResult<Carpool>> UpdateCarpool(int carpoolID, UpdateCarpoolDTO updateCarpoolDTO)
@@ -90,7 +122,7 @@ namespace CommurideApi.Controllers
             }
             catch (NotFoundException e)
             {
-                return NotFound(e);
+                return NotFound(e.Message);
             }
             catch (Exception ex)
             {
@@ -98,18 +130,23 @@ namespace CommurideApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete a carpool that belongs to the user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<ActionResult> DeleteCarpool(int carpoolID)
+        public async Task<ActionResult> DeleteCarpool(int id)
         {
             try
             {
-                await _carpoolRepository.DeleteCarpool(await GetConnectedUser(), carpoolID);
+                await _carpoolRepository.DeleteCarpool(await GetConnectedUser(), id);
                 return NoContent();
             }
             catch (NotFoundException e)
             {
-                return NotFound(e);
+                return NotFound(e.Message);
             }
             catch (Exception ex)
             {
@@ -117,6 +154,11 @@ namespace CommurideApi.Controllers
             }
         }
 
+        /// <summary>
+        /// return the connected user if connected
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="GetConnectedUserException"></exception>
         [ApiExplorerSettings(IgnoreApi = true)]
         [Authorize]
         public async Task<AppUser> GetConnectedUser()

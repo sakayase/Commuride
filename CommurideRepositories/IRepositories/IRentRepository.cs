@@ -17,5 +17,7 @@ namespace CommurideRepositories.IRepositories
         public Task<Rent> PostRent(AppUser appUser, PostRentDTO postRentDto);
         public Task<Rent> UpdateRent(AppUser appUser, int rentId, UpdateRentDTO carpool);
         public Task DeleteRent(AppUser appUser, int rentId);
+        public Task<List<RentDTO>> GetUserRents(AppUser appUser);
+        public Task<List<RentDTO>> GetUserRentsFromPeriodAndVehicleId(AppUser appUser, DateTime startDate, DateTime endDate, int vehicleId);
     }
 }

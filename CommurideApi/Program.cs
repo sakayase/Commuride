@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using CommurideModels.DbContexts;
 using CommurideModels.Models;
 using CommurideRepositories.IRepositories;
@@ -15,6 +16,8 @@ builder.Services.AddDbContext<ApplicationDbContext>( options =>
     var connectionString = builder.Configuration.GetConnectionString("CommurideConnection");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
+
+builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddIdentityApiEndpoints<AppUser>(o =>
 {

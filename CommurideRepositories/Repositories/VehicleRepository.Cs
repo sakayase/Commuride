@@ -77,7 +77,7 @@ namespace CommurideRepositories.Repositories {
             return vehicles;
         }
 
-        public async Task<List<GetVehicleDTO?>> GetVehicleByBrand(string brand)
+        public async Task<List<GetVehicleDTO>> GetVehicleByBrand(string brand)
         {
             List<GetVehicleDTO> vehicles = await _context.Vehicles
             .Where(x => x.Brand == brand)

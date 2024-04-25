@@ -15,7 +15,7 @@ namespace CommurideApi.Controllers
     /// <summary>
     /// Controller for the rents
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class RentController : ControllerBase
     {
@@ -45,6 +45,26 @@ namespace CommurideApi.Controllers
             try
             {
                 List<RentDTO>? RentDTOs = await _rentRepository.GetRents(skip: skip);
+                return Ok(RentDTOs);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets rents of the connected user
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet()]
+        [Authorize]
+        public async Task<ActionResult<List<RentDTO>>> GetUserRents()
+        {
+            try
+            {
+                AppUser user = await GetConnectedUser();
+                List<RentDTO>? RentDTOs = await _rentRepository.GetUserRents(user);
                 return Ok(RentDTOs);
             }
             catch (Exception ex)
