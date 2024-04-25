@@ -14,6 +14,13 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+
+        builder.Entity<Rent>().HasOne(r => r.User).WithMany(u => u.Rents);
+        builder.Entity<Rent>().HasOne(r => r.Vehicle).WithMany(u => u.Rents);
+        builder.Entity<AppUser>().HasMany(u => u.Carpools).WithOne(c => c.Driver);
+        builder.Entity<Carpool>().HasMany(c => c.Passengers).WithMany(u => u.PassengerCarpools);
+
+
         string ADMIN_ID = "02174cf0–9412–4cfe - afbf - 59f706d72cf6";
         string ROLE_ID = "341743f0 - asd2–42de - afbf - 59kmkkmk72cf6";
 
@@ -42,9 +49,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         //seed user
         builder.Entity<AppUser>().HasData(appUser);
 
-
-
-
         builder.Entity<Vehicle>().HasData(
        new Vehicle { Id = 1, Brand = "renault", Category = Vehicle.CategoryVehicle.MiniCitadine, CO2 = 11, Model = "clio", Motorization = Vehicle.MotorizationVehicle.Hybride, NbPlaces = 5, Registration = "OK", Status = Vehicle.StatusVehicle.Service, URLPhoto = "" },
             new Vehicle { Id = 2, Brand = "mazda", Category = Vehicle.CategoryVehicle.Compacte, CO2 = 20, Model = "MX5", Motorization = Vehicle.MotorizationVehicle.Essence, NbPlaces = 2, Registration = "OK", Status = Vehicle.StatusVehicle.Service, URLPhoto = "" },
@@ -55,6 +59,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             new Vehicle { Id = 7, Brand = "bmw", Category = Vehicle.CategoryVehicle.Compacte, CO2 = 24, Model = "serie a", Motorization = Vehicle.MotorizationVehicle.Essence, NbPlaces = 5, Registration = "OK", Status = Vehicle.StatusVehicle.Service, URLPhoto = "" },
             new Vehicle { Id = 8, Brand = "renault", Category = Vehicle.CategoryVehicle.BerlineTailleM, CO2 = 20, Model = "laguna", Motorization = Vehicle.MotorizationVehicle.Ethanol, NbPlaces = 2, Registration = "OK1", Status = Vehicle.StatusVehicle.Service, URLPhoto = "" }
             );
+
+        builder.Entity<Rent>().HasData(
+            new Rent { Id = 1, DateHourEnd = DateTime.Now.AddDays(7), DateHourStart = DateTime.Now, VehicleId = 1, UserId = ADMIN_ID}
+            );
+
+
         base.OnModelCreating(builder);
     }
 }

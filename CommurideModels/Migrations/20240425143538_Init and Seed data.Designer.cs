@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommurideModels.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240423131219_Init + Seed")]
-    partial class InitSeed
+    [Migration("20240425143538_Init and Seed data")]
+    partial class InitandSeeddata
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,15 +25,27 @@ namespace CommurideModels.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("AppUserCarpool", b =>
+                {
+                    b.Property<int>("PassengerCarpoolsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PassengersId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("PassengerCarpoolsId", "PassengersId");
+
+                    b.HasIndex("PassengersId");
+
+                    b.ToTable("AppUserCarpool");
+                });
+
             modelBuilder.Entity("CommurideModels.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CarpoolId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -71,7 +83,6 @@ namespace CommurideModels.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("PhotoURL")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("SecurityStamp")
@@ -85,8 +96,6 @@ namespace CommurideModels.Migrations
                         .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CarpoolId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -102,14 +111,14 @@ namespace CommurideModels.Migrations
                         {
                             Id = "02174cf0–9412–4cfe - afbf - 59f706d72cf6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9dea28de-f221-4602-90cf-df75e542b82a",
+                            ConcurrencyStamp = "801f7f9b-cdac-4641-9f0c-45e7ad49cc58",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDNt+fJmNe99yDa8kn8jM2J1uUPqOmV86L4sQepxWkx/EJo2bfrDhHY+B5GLWhiTrw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIQvCKzsJOy8lyI9ueMCXu0jyBLU/HhKRqDANQmd0SDC7wzFxezBwicg4NpZsB8dhw==",
                             PhoneNumberConfirmed = false,
                             PhotoURL = "",
-                            SecurityStamp = "2e3443d2-5cba-4d6a-a175-b6eed306b48f",
+                            SecurityStamp = "dde81d93-789c-475c-8401-fd51feb9e9b8",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -279,7 +288,6 @@ namespace CommurideModels.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("DriverId")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<int>("Duration")
@@ -325,6 +333,16 @@ namespace CommurideModels.Migrations
                     b.HasIndex("VehicleId");
 
                     b.ToTable("Rents");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateHourEnd = new DateTime(2024, 5, 2, 16, 35, 38, 155, DateTimeKind.Local).AddTicks(2090),
+                            DateHourStart = new DateTime(2024, 4, 25, 16, 35, 38, 155, DateTimeKind.Local).AddTicks(2139),
+                            UserId = "02174cf0–9412–4cfe - afbf - 59f706d72cf6",
+                            VehicleId = 1
+                        });
                 });
 
             modelBuilder.Entity("Models.Vehicle", b =>
@@ -482,12 +500,19 @@ namespace CommurideModels.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CommurideModels.Models.AppUser", b =>
+            modelBuilder.Entity("AppUserCarpool", b =>
                 {
                     b.HasOne("Models.Carpool", null)
-                        .WithMany("Passengers")
-                        .HasForeignKey("CarpoolId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .WithMany()
+                        .HasForeignKey("PassengerCarpoolsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CommurideModels.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("PassengersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -544,10 +569,8 @@ namespace CommurideModels.Migrations
             modelBuilder.Entity("Models.Carpool", b =>
                 {
                     b.HasOne("CommurideModels.Models.AppUser", "Driver")
-                        .WithMany()
-                        .HasForeignKey("DriverId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .WithMany("Carpools")
+                        .HasForeignKey("DriverId");
 
                     b.HasOne("Models.Vehicle", "Vehicle")
                         .WithMany()
@@ -563,9 +586,9 @@ namespace CommurideModels.Migrations
             modelBuilder.Entity("Models.Rent", b =>
                 {
                     b.HasOne("CommurideModels.Models.AppUser", "User")
-                        .WithMany()
+                        .WithMany("Rents")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Models.Vehicle", "Vehicle")
@@ -588,9 +611,11 @@ namespace CommurideModels.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Models.Carpool", b =>
+            modelBuilder.Entity("CommurideModels.Models.AppUser", b =>
                 {
-                    b.Navigation("Passengers");
+                    b.Navigation("Carpools");
+
+                    b.Navigation("Rents");
                 });
 
             modelBuilder.Entity("Models.Vehicle", b =>

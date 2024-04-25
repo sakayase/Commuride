@@ -18,5 +18,7 @@ namespace CommurideModels.DTOs.Carpool
         public required string AddressArrival { get; set; }
         [Required]
         public required int vehicleId { get; set; }
+        public int? Duration { get; set; }
+        public int? Distance { get; set; }
     }
 }
