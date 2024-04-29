@@ -9,5 +9,6 @@ namespace CommurideRepositories.IRepositories
         public Task Logout();
         public Task<AppUser> Register(CreateAppUserDTO appUserDTO);
         public Task<AppUser> GetLoggedUser();
+        public Task<AppUser> GetUserFromId(string id);
     }
 }

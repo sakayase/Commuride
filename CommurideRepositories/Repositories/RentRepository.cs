@@ -159,13 +159,10 @@ namespace CommurideRepositories.Repositories
             {
                 FilteredRents = FilteredRents.Where(r => r.Id != rentId).ToList();
             }
-            await Console.Out.WriteLineAsync(FilteredRents.Count().ToString());
             if ((FilteredRents == null) || (FilteredRents.Count == 0))
             {
-                await Console.Out.WriteLineAsync("return true");
                 return true;
             }
-            await Console.Out.WriteLineAsync("return false");
             return false;
         }
 

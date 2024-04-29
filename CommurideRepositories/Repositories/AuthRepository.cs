@@ -4,6 +4,7 @@ using CommurideModels.Exceptions;
 using CommurideModels.Models;
 using CommurideRepositories.IRepositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CommurideRepositories.Repositories
 {
@@ -26,6 +27,11 @@ namespace CommurideRepositories.Repositories
         public Task<AppUser> GetLoggedUser()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<AppUser> GetUserFromId(string id)
+        {
+            return await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == id) ?? throw new NotFoundException();
         }
 
         public async Task<AppUser> Login(LoginDTO loginDTO)

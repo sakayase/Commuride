@@ -108,7 +108,7 @@ namespace CommurideApi.Controllers
             try
             {
                 Rent rent = await _rentRepository.PostRent(await GetConnectedUser(), postRentDTO);
-                return Created();
+                return CreatedAtAction("GetRent", new { id = rent.Id }, rent);
             }
             catch (NotFoundException e)
             {
@@ -126,7 +126,7 @@ namespace CommurideApi.Controllers
         /// <param name="rentID">rent to update</param>
         /// <param name="updateRentDTO">new rent data</param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPut("{rentID}")]
         [Authorize]
         public async Task<ActionResult<Carpool>> UpdateRent(int rentID, UpdateRentDTO updateRentDTO)
         {
@@ -150,7 +150,7 @@ namespace CommurideApi.Controllers
         /// </summary>
         /// <param name="rentID"></param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
+        [HttpDelete("{rentID}")]
         [Authorize]
         public async Task<ActionResult> DeleteRent(int rentID)
         {
