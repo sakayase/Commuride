@@ -40,15 +40,15 @@ namespace Models
         [Required]
         public int Id { get; set; }
         [Required]
-        public string Registration { get; set; }
+        public required string Registration { get; set; }
         [Required]
-        public string Brand { get; set; }
+        public required string Brand { get; set; }
         [Required]
-        public string Model { get; set; }
+        public required string Model { get; set; }
         [Required]
         public CategoryVehicle Category { get; set; }
         [Required]
-        public string URLPhoto { get; set; }
+        public string? URLPhoto { get; set; }
         [Required]
         public MotorizationVehicle Motorization { get; set; }
         [Required]
