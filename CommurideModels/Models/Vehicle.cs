@@ -57,10 +57,6 @@ namespace Models
         public StatusVehicle Status{ get; set; }
         [Required]
         public int NbPlaces { get; set; }
-        [ForeignKey("UserId")]
-        public AppUser? User { get; set; }
-        [ForeignKey("RentId")]
         public ICollection<Rent>? Rents { get; } = new List<Rent>();
-
     }
 }

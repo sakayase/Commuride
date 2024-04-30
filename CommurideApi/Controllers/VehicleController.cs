@@ -32,7 +32,7 @@ namespace CommurideApi.Controllers {
         /// Get all vehicles
         /// </summary>
         [HttpGet]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<GetAllVehicleDTO>>> GetAllVehicles()
@@ -46,7 +46,7 @@ namespace CommurideApi.Controllers {
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GetVehicleDTO>> GetVehicle(int id)
@@ -65,7 +65,7 @@ namespace CommurideApi.Controllers {
         /// <param name="registration"></param>
         /// <returns></returns>
         [HttpGet("{registration}")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GetVehicleDTO>> GetVehicleByRegistration (string registration)
@@ -85,7 +85,7 @@ namespace CommurideApi.Controllers {
         /// <param name="brand"></param>
         /// <returns></returns>
         [HttpGet("{brand}")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<GetVehicleDTO>>> GetVehicleByBrand (string brand)
@@ -100,7 +100,7 @@ namespace CommurideApi.Controllers {
         /// <param name="vehicleDTO"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> UpdateVehicle(int id, UpdateVehicleDTO vehicleDTO)
@@ -126,7 +126,7 @@ namespace CommurideApi.Controllers {
         /// Create a vehicle
         /// </summary>
         [HttpPost]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Vehicle>> PostVehicle(CreateVehicleDTO vehicleDTO)
@@ -141,7 +141,7 @@ namespace CommurideApi.Controllers {
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("Delete/{id}")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> DeleteVehicle(int id)
