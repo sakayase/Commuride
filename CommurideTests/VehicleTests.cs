@@ -1,3 +1,4 @@
+using CommurideModels.DTOs.AppUser;
 using CommurideModels.DTOs.Vehicle;
 using Models;
 using System.Net;
@@ -28,6 +29,12 @@ public class VehicleTests : IClassFixture<CommurideWebApplicationFactory<Program
     [MemberData(nameof(CreateTestData))]
     public async Task CreateVehicle(CreateVehicleDTO vehicleDTO)
     {
+        // Authorization ADMIN
+        var loginDTO = new LoginDTO() { Password = "admin", Username = "ADMIN" };
+        var loginContent = JsonSerializer.Serialize(loginDTO);
+        var loginStringContent = new StringContent(loginContent, encoding: Encoding.UTF8, mediaType: "application/json");
+        var loginResponse = await _client.PostAsync("api/Auth/Login", loginStringContent);
+        
         // Arrange
         string registerStringContent = JsonSerializer.Serialize(vehicleDTO);
         var content = new StringContent(registerStringContent, encoding: Encoding.UTF8, mediaType: "application/json");
@@ -55,6 +62,12 @@ public class VehicleTests : IClassFixture<CommurideWebApplicationFactory<Program
     [Fact]
     public async Task GetAllVehicles()
     {
+        // Authorization ADMIN
+        var loginDTO = new LoginDTO() { Password = "admin", Username = "ADMIN" };
+        var loginContent = JsonSerializer.Serialize(loginDTO);
+        var loginStringContent = new StringContent(loginContent, encoding: Encoding.UTF8, mediaType: "application/json");
+        var loginResponse = await _client.PostAsync("api/Auth/Login", loginStringContent);
+
         // Arrange
         var response = await _client.GetAsync("api/Vehicle/GetAllVehicles");
 
@@ -69,6 +82,12 @@ public class VehicleTests : IClassFixture<CommurideWebApplicationFactory<Program
     [Fact]
     public async Task GetVehicleById()
     {
+        // Authorization ADMIN
+        var loginDTO = new LoginDTO() { Password = "admin", Username = "ADMIN" };
+        var loginContent = JsonSerializer.Serialize(loginDTO);
+        var loginStringContent = new StringContent(loginContent, encoding: Encoding.UTF8, mediaType: "application/json");
+        var loginResponse = await _client.PostAsync("api/Auth/Login", loginStringContent);
+
         // Arrange
         var createVehicleResponse = await _client.PostAsync("api/Vehicle/PostVehicle", new StringContent("{\"Registration\": \"SG-267-ZT\", \"Brand\": \"BrandTest\", \"Model\": \"ModelTest\", \"Category\": 1, \"CO2\": 10, \"Motorization\": 2, \"NbPlaces\": 2, \"Status\": 1, \"URLPhoto\": \"urltest\"}", Encoding.UTF8, "application/json"));
         createVehicleResponse.EnsureSuccessStatusCode();
@@ -96,6 +115,12 @@ public class VehicleTests : IClassFixture<CommurideWebApplicationFactory<Program
 [Fact]
 public async Task UpdateVehicle()
 {
+    // Authorization ADMIN
+    var loginDTO = new LoginDTO() { Password = "admin", Username = "ADMIN" };
+    var loginContent = JsonSerializer.Serialize(loginDTO);
+    var loginStringContent = new StringContent(loginContent, encoding: Encoding.UTF8, mediaType: "application/json");
+    var loginResponse = await _client.PostAsync("api/Auth/Login", loginStringContent);
+
     // Arrange
     var originalVehicle = new CreateVehicleDTO
     {
@@ -146,6 +171,12 @@ public async Task UpdateVehicle()
     [MemberData(nameof(CreateTestData))]
     public async Task DeleteVehicle(CreateVehicleDTO vehicleDTO)
     {
+        // Authorization ADMIN
+        var loginDTO = new LoginDTO() { Password = "admin", Username = "ADMIN" };
+        var loginContent = JsonSerializer.Serialize(loginDTO);
+        var loginStringContent = new StringContent(loginContent, encoding: Encoding.UTF8, mediaType: "application/json");
+        var loginResponse = await _client.PostAsync("api/Auth/Login", loginStringContent);
+
         // Arrange
         var createVehicleResponse = await _client.PostAsync("api/Vehicle/PostVehicle", new StringContent("{\"Registration\": \"SG-267-ZT\", \"Brand\": \"BrandTest\", \"Model\": \"ModelTest\", \"Category\": 1, \"CO2\": 10, \"Motorization\": 2, \"NbPlaces\": 2, \"Status\": 1, \"URLPhoto\": \"urltest\"}", Encoding.UTF8, "application/json"));
         createVehicleResponse.EnsureSuccessStatusCode();
