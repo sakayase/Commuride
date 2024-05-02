@@ -93,7 +93,7 @@ namespace CommurideApi.Controllers
             try
             {
                 Carpool carpool = await _carpoolRepository.PostCarpool(await GetConnectedUser(), postCarpoolDTO);
-                return Created();
+                return CreatedAtAction("GetCarpool", new { id = carpool.Id }, carpool);
             }
             catch (NotFoundException e)
             {
@@ -111,7 +111,7 @@ namespace CommurideApi.Controllers
         /// <param name="carpoolID"></param>
         /// <param name="updateCarpoolDTO"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPut("{carpoolID}")]
         [Authorize]
         public async Task<ActionResult<Carpool>> UpdateCarpool(int carpoolID, UpdateCarpoolDTO updateCarpoolDTO)
         {
