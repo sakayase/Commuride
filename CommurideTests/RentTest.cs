@@ -6,6 +6,7 @@ using CommurideTests.Helpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Models;
 using NuGet.Protocol;
@@ -33,10 +34,15 @@ namespace CommurideTests
         private readonly HttpClient _client = factory.CreateClient();
         private readonly ITestOutputHelper _output = output;
         LoginDTO loginDTO = new LoginDTO() { Password = "admin", Username = "admin" };
+        JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
 
 
         internal async Task<HttpResponseMessage> CreateARent(PostRentDTO postRentDTO)
         {
+
             return await _client.PostAsync("api/Rent/PostRent", new StringContent(JsonSerializer.Serialize(postRentDTO), encoding: Encoding.UTF8, mediaType: "application/json"));
         }
 
@@ -74,11 +80,14 @@ namespace CommurideTests
             DateTime startDate = DateTime.Now.AddMonths(1);
             PostRentDTO postRentDTO = new PostRentDTO() { EndDate = startDate.AddDays(7), StartDate = startDate, VehicleId = 1 };
             var resp = await CreateARent(postRentDTO);
+            // Deserialise the resp to get the id
+            var rent = await JsonSerializer.DeserializeAsync<Rent>(await resp.Content.ReadAsStreamAsync(), options);
+            Assert.NotNull(rent);
+            Assert.Equal(rent!.Vehicle.Id, postRentDTO.VehicleId);
 
             // It should pass
             Assert.True(resp.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.Created, resp.StatusCode);
-            _output.WriteLine(await resp.Content.ReadAsStringAsync());
         }
 
 
@@ -118,13 +127,19 @@ namespace CommurideTests
             // Clean DB, login and create a new Rent at DateTime.Now.AddMonths(1)
             CleanDB();
             await LoginTestUser(loginDTO);
-            await CreateARent(postRentDTO);
+            var postResp = await CreateARent(postRentDTO);
+
+
+            var rent = await JsonSerializer.DeserializeAsync<Rent>(await postResp.Content.ReadAsStreamAsync(), options);
+            Assert.NotNull(rent);
 
             // Update the created Rent
             DateTime newStartDate = DateTime.Now.AddMonths(1).AddDays(1);
             UpdateRentDTO updateRentDTO = new UpdateRentDTO() {  StartDate = newStartDate };
-            var resp = await _client.PutAsync("api/Rent/UpdateRent/1", new StringContent(JsonSerializer.Serialize(updateRentDTO), encoding: Encoding.UTF8, mediaType: "application/json"));
-            
+            var resp = await _client.PutAsync($"api/Rent/UpdateRent/{rent!.Id}", new StringContent(JsonSerializer.Serialize(updateRentDTO), encoding: Encoding.UTF8, mediaType: "application/json"));
+
+
+
             // It should pass
             Assert.True(resp.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
@@ -145,13 +160,18 @@ namespace CommurideTests
             // Clean DB, login and create a new Rent at DateTime.Now.AddMonths(1)
             CleanDB();
             await LoginTestUser(loginDTO);
-            await CreateARent(postRentDTO);
-            await CreateARent(postRentDTO2);
+            var postResp1 = await CreateARent(postRentDTO);
+            var postResp2 = await CreateARent(postRentDTO2);
+
+            var rent1 = await JsonSerializer.DeserializeAsync<Rent>(await postResp1.Content.ReadAsStreamAsync(), options);
+            var rent2 = await JsonSerializer.DeserializeAsync<Rent>(await postResp2.Content.ReadAsStreamAsync(), options);
+            Assert.NotNull(rent1);
+            Assert.NotNull(rent2);
 
             // Update the first rent with dates intersecting the second rent
             DateTime newStartDate = DateTime.Now.AddMonths(1).AddDays(9);
             UpdateRentDTO updateRentDTO = new UpdateRentDTO() { StartDate = newStartDate, EndDate = newStartDate.AddDays(12) }; 
-            var resp = await _client.PutAsync("api/Rent/UpdateRent/1", new StringContent(JsonSerializer.Serialize(updateRentDTO), encoding: Encoding.UTF8, mediaType: "application/json"));
+            var resp = await _client.PutAsync($"api/Rent/UpdateRent/{rent1!.Id}", new StringContent(JsonSerializer.Serialize(updateRentDTO), encoding: Encoding.UTF8, mediaType: "application/json"));
             
             //It should fail
             Assert.False(resp.IsSuccessStatusCode);
@@ -171,14 +191,18 @@ namespace CommurideTests
             // Clean DB, login and create a new Rent at DateTime.Now.AddMonths(1)
             CleanDB();
             await LoginTestUser(loginDTO);
-            await CreateARent(postRentDTO);
+            var postResp = await CreateARent(postRentDTO);
+
+            // Deserialise the resp to get the id
+            var rent = await JsonSerializer.DeserializeAsync<Rent>(await postResp.Content.ReadAsStreamAsync(), options);
+            Assert.NotNull(rent);
 
             // Delete the created Rent
-            var resp = await _client.DeleteAsync("api/Rent/DeleteRent/1");
-            
+            var resp = await _client.DeleteAsync($"api/Rent/DeleteRent/{rent!.Id}");
             // It should pass
             Assert.True(resp.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.NoContent, resp.StatusCode);
+            
         }
 
         /// <summary>
@@ -194,12 +218,17 @@ namespace CommurideTests
             // Clean DB, login and create a new Rent at DateTime.Now.AddMonths(1)
             CleanDB();
             await LoginTestUser(loginDTO);
-            await CreateARent(postRentDTO);
+            var postResp = await CreateARent(postRentDTO);
+
             //Logout
             await _client.GetAsync("api/Auth/Logout");
 
+            // Deserialise the resp to get the id
+            var rent = await JsonSerializer.DeserializeAsync<Rent>(await postResp.Content.ReadAsStreamAsync(), options);
+            Assert.NotNull(rent);
+
             // Delete the created Rent
-            var resp = await _client.DeleteAsync("api/Rent/DeleteRent/1");
+            var resp = await _client.DeleteAsync($"api/Rent/DeleteRent/{rent!.Id}");
 
             // It should fail
             Assert.False(resp.IsSuccessStatusCode);
