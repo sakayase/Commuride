@@ -30,7 +30,6 @@ namespace CommurideTests
     /// <param name="output"></param>
     public class RentTest(CommurideWebApplicationFactory<Program> factory, ITestOutputHelper output) : IClassFixture<CommurideWebApplicationFactory<Program>>
     {
-        //Bypass authentication (carefull, doesnt create an AppUser, you have to provide it manually)
         private readonly HttpClient _client = factory.CreateClient();
         private readonly ITestOutputHelper _output = output;
         LoginDTO loginDTO = new LoginDTO() { Password = "admin", Username = "admin" };

@@ -30,7 +30,6 @@ namespace CommurideTests
     /// <param name="output"></param>
     public class CarpoolTest(CommurideWebApplicationFactory<Program> factory, ITestOutputHelper output) : IClassFixture<CommurideWebApplicationFactory<Program>>
     {
-        //Bypass authentication (carefull, doesnt create an AppUser, you have to provide it manually)
         private readonly HttpClient _client = factory.CreateClient();
         private readonly ITestOutputHelper _output = output;
         LoginDTO loginDTO = new LoginDTO() { Password = "admin", Username = "admin" };
@@ -87,10 +86,8 @@ namespace CommurideTests
             PostRentDTO postRentDTO = new PostRentDTO() { EndDate = startDate.AddDays(7), StartDate = startDate, VehicleId = 1 };
             PostCarpoolDTO postCarpoolDTO = new PostCarpoolDTO() { AddressArrival = "Lens", AddressLeaving = "Lille", DateDepart = startDate, vehicleId = 1 };
             var resptest = await CreateARent(postRentDTO);
-            _output.WriteLine(await resptest.Content.ReadAsStringAsync());
             var resp = await CreateACarpool(postCarpoolDTO);
 
-            _output.WriteLine(await resp.Content.ReadAsStringAsync());
             // Deserialise the resp to get the id
             var carpool = await JsonSerializer.DeserializeAsync<Carpool>(await resp.Content.ReadAsStreamAsync(), options);
 
@@ -110,6 +107,7 @@ namespace CommurideTests
         [Fact]
         public async Task FailCreateACarpool()
         {
+            // ARRANGE
             DateTime startDate = DateTime.Now.AddMonths(1);
             PostRentDTO postRentDTO = new PostRentDTO() { EndDate = startDate.AddDays(7), StartDate = startDate, VehicleId = 1 };
             PostCarpoolDTO postCarpoolDTO = new PostCarpoolDTO() { AddressArrival = "Lens", AddressLeaving = "Lille", DateDepart = startDate.AddDays(8), vehicleId = 2 };
@@ -119,10 +117,11 @@ namespace CommurideTests
             await LoginTestUser(loginDTO);
             await CreateARent(postRentDTO);
 
+            // ACT
             // Create a new carpool with a vehicle that doesnt belong to the user at the time (doesnt register a rent at the carpool date)
             var resp = await CreateACarpool(postCarpoolDTO);
 
-            _output.WriteLine(resp.StatusCode.ToString());
+            // ASSERT
             // It should fail
             Assert.False(resp.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.NotFound, resp.StatusCode);
@@ -135,6 +134,7 @@ namespace CommurideTests
         [Fact]
         public async Task SuccessUpdateACarpool()
         {
+            // ARRANGE
             DateTime startDate = DateTime.Now.AddMonths(1);
             PostRentDTO postRentDTO1 = new PostRentDTO() { EndDate = startDate.AddDays(7), StartDate = startDate, VehicleId = 1 };
             PostRentDTO postRentDTO2 = new PostRentDTO() { EndDate = startDate.AddDays(14), StartDate = startDate.AddDays(7), VehicleId = 2 };
@@ -146,26 +146,21 @@ namespace CommurideTests
             await CreateARent(postRentDTO1);
             await CreateARent(postRentDTO2);
             var postResp = await CreateACarpool(postCarpoolDTO);
-
             var carpool = await JsonSerializer.DeserializeAsync<Carpool>(await postResp.Content.ReadAsStreamAsync(), options);
-            _output.WriteLine("test");
             Assert.NotNull(carpool);
 
+            // ACT
             // Update the created Carpool with a new vehicle and a new date in between the new rent dates
             DateTime newStartDate = startDate.AddDays(10);
             UpdateCarpoolDTO updateCarpoolDTO = new UpdateCarpoolDTO() { dateDepart = newStartDate, vehicleId = 2 };
             var resp = await _client.PutAsync($"api/Carpool/UpdateCarpool/{carpool!.Id}", new StringContent(JsonSerializer.Serialize(updateCarpoolDTO), encoding: Encoding.UTF8, mediaType: "application/json"));
-            _output.WriteLine(resp.StatusCode.ToString());
-            _output.WriteLine(await resp.Content.ReadAsStringAsync());
             var updatedCarpool = await JsonSerializer.DeserializeAsync<Carpool>(await resp.Content.ReadAsStreamAsync(), options);
-            _output.WriteLine("test2");
+
+            // ASSERT
             Assert.NotNull(updatedCarpool);
             Assert.Equal(carpool.Id, updatedCarpool!.Id);
             Assert.Equal(updateCarpoolDTO.vehicleId, updatedCarpool.Vehicle.Id);
             Assert.Equal(updateCarpoolDTO.dateDepart, updatedCarpool.DateDepart);
-
-            _output.WriteLine(resp.StatusCode.ToString());
-            // It should pass
             Assert.True(resp.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
 
@@ -178,6 +173,7 @@ namespace CommurideTests
         [Fact]
         public async Task FailUpdateACarpool()
         {
+            // ARRANGE
             DateTime startDate = DateTime.Now.AddMonths(1);
             PostRentDTO postRentDTO = new PostRentDTO() { EndDate = startDate.AddDays(7), StartDate = startDate, VehicleId = 1 };
             PostCarpoolDTO postCarpoolDTO = new PostCarpoolDTO() { AddressArrival = "Lens", AddressLeaving = "Lille", DateDepart = startDate, vehicleId = 1 };
@@ -192,6 +188,7 @@ namespace CommurideTests
             var carpool = await JsonSerializer.DeserializeAsync<Carpool>(await postResp.Content.ReadAsStreamAsync(), options);
             Assert.NotNull(carpool);
 
+            // ACT
             // Update the created Carpool with a new vehicle or a new date outside rented time
             UpdateCarpoolDTO updateCarpoolDTO1 = new UpdateCarpoolDTO() { dateDepart = startDate, vehicleId = 2 };
             UpdateCarpoolDTO updateCarpoolDTO2 = new UpdateCarpoolDTO() { dateDepart = startDate.AddYears(1), vehicleId = 1 };
@@ -199,9 +196,7 @@ namespace CommurideTests
             var resp1 = await _client.PutAsync($"api/Carpool/UpdateCarpool/{carpool!.Id}", new StringContent(JsonSerializer.Serialize(updateCarpoolDTO1), encoding: Encoding.UTF8, mediaType: "application/json"));
             var resp2 = await _client.PutAsync($"api/Carpool/UpdateCarpool/{carpool!.Id}", new StringContent(JsonSerializer.Serialize(updateCarpoolDTO2), encoding: Encoding.UTF8, mediaType: "application/json"));
 
-            _output.WriteLine(resp1.ToJson());
-            _output.WriteLine(await resp2.Content.ReadAsStringAsync());
-
+            // ASSERT
             //It should fail
             Assert.False(resp1.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.NotFound, resp1.StatusCode);
@@ -218,6 +213,7 @@ namespace CommurideTests
         [Fact]
         public async Task SuccessDeleteACarpool()
         {
+            // ARRANGE
             DateTime startDate = DateTime.Now.AddMonths(1);
             PostRentDTO postRentDTO = new PostRentDTO() { EndDate = startDate.AddDays(7), StartDate = startDate, VehicleId = 1 };
             PostCarpoolDTO postCarpoolDTO = new PostCarpoolDTO() { AddressArrival = "Lens", AddressLeaving = "Lille", DateDepart = startDate, vehicleId = 1 };
@@ -227,13 +223,16 @@ namespace CommurideTests
             await LoginTestUser(loginDTO);
             await CreateARent(postRentDTO: postRentDTO);
             var postResp = await CreateACarpool(postCarpoolDTO);
-
+            
             // Deserialise the resp to get the id
             var carpool = await JsonSerializer.DeserializeAsync<Carpool>(await postResp.Content.ReadAsStreamAsync(), options);
             Assert.NotNull(carpool);
 
+            // ACT
             // Delete the created Carpool
             var resp = await _client.DeleteAsync($"api/Carpool/DeleteCarpool/{carpool!.Id}");
+            
+            // ASSERT
             // It should pass
             Assert.True(resp.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.NoContent, resp.StatusCode);
@@ -247,6 +246,7 @@ namespace CommurideTests
         [Fact]
         public async Task FailDeleteACarpool()
         {
+            // ARRANGE
             DateTime startDate = DateTime.Now.AddMonths(1);
             PostRentDTO postRentDTO = new PostRentDTO() { EndDate = startDate.AddDays(7), StartDate = startDate, VehicleId = 1 };
             PostCarpoolDTO postCarpoolDTO = new PostCarpoolDTO() { AddressArrival = "Lens", AddressLeaving = "Lille", DateDepart = startDate, vehicleId = 1 };
@@ -264,9 +264,11 @@ namespace CommurideTests
             var carpool = await JsonSerializer.DeserializeAsync<Carpool>(await postResp.Content.ReadAsStreamAsync(), options);
             Assert.NotNull(carpool);
 
+            // ACT
             // Delete the created Carpool
             var resp = await _client.DeleteAsync($"api/Carpool/DeleteCarpool/{carpool!.Id}");
 
+            // ASSERT
             // It should fail
             Assert.False(resp.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.Unauthorized, resp.StatusCode);
