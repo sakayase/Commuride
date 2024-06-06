@@ -7,7 +7,6 @@ Ce projet est une application permettant à des utilisateurs de louer des vehicu
 
 - Simon Ponitzki
 - Kilian Coutouzis
-- Sary Zeaitier
 
 ----
 
