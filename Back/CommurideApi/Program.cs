@@ -17,6 +17,14 @@ builder.Services.AddDbContext<ApplicationDbContext>( options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsConfigDev", policy =>
+    {
+        policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddIdentityApiEndpoints<AppUser>(o =>
@@ -66,6 +74,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("CorsConfigDev");
 
 app.UseHttpsRedirection();
 
