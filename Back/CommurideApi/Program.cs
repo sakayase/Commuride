@@ -21,8 +21,18 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "CorsConfigDev", policy =>
     {
-        policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+/*        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+*/       policy.SetIsOriginAllowed(origin => {
+            Console.WriteLine(origin);
+            Uri uri = new UriBuilder(origin).Uri;
+            return uri.IsLoopback;
+        }).AllowCredentials().AllowAnyMethod().AllowAnyHeader();
     });
+});
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SameSite = SameSiteMode.None;
 });
 
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -38,7 +48,6 @@ builder.Services.AddIdentityApiEndpoints<AppUser>(o =>
 })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();

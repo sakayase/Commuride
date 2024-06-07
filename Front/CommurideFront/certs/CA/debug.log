@@ -1,0 +1,4 @@
+[0608/014907.804:ERROR:filesystem_win.cc(128)] GetFileAttributes C:\Users\simon\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\e9784929-8c5b-4e49-aaa5-4aecd7c0d0ae: Le fichier spécifié est introuvable. (0x2)
+[0608/014907.806:ERROR:filesystem_win.cc(128)] GetFileAttributes C:\Users\simon\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\e9784929-8c5b-4e49-aaa5-4aecd7c0d0ae: Le fichier spécifié est introuvable. (0x2)
+[0608/014907.807:ERROR:filesystem_win.cc(128)] GetFileAttributes C:\Users\simon\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\e9784929-8c5b-4e49-aaa5-4aecd7c0d0ae: Le fichier spécifié est introuvable. (0x2)
+[0608/014907.809:ERROR:filesystem_win.cc(128)] GetFileAttributes C:\Users\simon\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\e9784929-8c5b-4e49-aaa5-4aecd7c0d0ae: Le fichier spécifié est introuvable. (0x2)

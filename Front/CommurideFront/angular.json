@@ -65,7 +65,10 @@
               "buildTarget": "CommurideFront:build:production"
             },
             "development": {
-              "buildTarget": "CommurideFront:build:development"
+              "buildTarget": "CommurideFront:build:development",
+              "sslKey": "./certs/localhost/localhost.decrypted.key",
+              "sslCert": "./certs/localhost/localhost.crt",
+              "ssl": true
             }
           },
           "defaultConfiguration": "development"
@@ -97,5 +100,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
