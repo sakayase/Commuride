@@ -3,8 +3,13 @@ using CommurideModels.DTOs.AppUser;
 using CommurideModels.Exceptions;
 using CommurideModels.Models;
 using CommurideRepositories.IRepositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace CommurideRepositories.Repositories
 {
@@ -13,21 +18,47 @@ namespace CommurideRepositories.Repositories
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public AuthRepository(
             ApplicationDbContext dbContext,
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager
+            SignInManager<AppUser> signInManager,
+            IHttpContextAccessor httpContextAccessor
             )
         {
             this._dbContext = dbContext;
             this._userManager = userManager;
             this._signInManager = signInManager;
+            this._httpContextAccessor = httpContextAccessor;
         }
 
-        public Task<AppUser> GetLoggedUser()
+        public async Task<AppUser> GetLoggedUserFromContext()
         {
-            throw new NotImplementedException();
-        }
+			var user = _httpContextAccessor.HttpContext.User as ClaimsPrincipal;
+			await Console.Out.WriteLineAsync("############################");
+			await Console.Out.WriteLineAsync("############################");
+			await Console.Out.WriteLineAsync("############################");
+			await Console.Out.WriteLineAsync("############################");
+			await Console.Out.WriteLineAsync("############################");
+			foreach (var claim in user.Claims)
+			{
+				await Console.Out.WriteLineAsync($"Issuer : {claim.Issuer}   |   Value :{claim.Value}   |    Subject : {claim.Subject}");
+			}
+			await Console.Out.WriteLineAsync("############################");
+			await Console.Out.WriteLineAsync("############################");
+			await Console.Out.WriteLineAsync("############################");
+			await Console.Out.WriteLineAsync("############################");
+			await Console.Out.WriteLineAsync("############################");
+
+
+			var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+			var appUser = await _userManager.FindByNameAsync(userName);
+			if (appUser == null)
+			{
+				throw new GetConnectedUserException();
+			}
+			return appUser;
+		}
 
         public async Task<AppUser> GetUserFromId(string id)
         {

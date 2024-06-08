@@ -17,15 +17,15 @@ namespace CommurideApi.Controllers {
     public class VehicleController : ControllerBase
     {
         private readonly IVehicleRepository _vehicleRepository;
-        private readonly UserManager<AppUser> _userManager;
 
-        /// <summary>
-        /// Controller of vehicles
-        /// </summary>
-        public VehicleController(IVehicleRepository vehicleRepository, UserManager<AppUser> userManager)
-        {
+		/// <summary>
+		/// Controller of vehicles
+		/// </summary>
+		public VehicleController(
+            IVehicleRepository vehicleRepository
+			)
+		{
             this._vehicleRepository = vehicleRepository;
-            this._userManager = userManager;
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace CommurideApi.Controllers {
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<GetVehicleDTO>> GetVehicleByRegistration (string registration)
+        public async Task<ActionResult<GetVehicleDTO>> GetVehicleByRegistration(string registration)
         {
             var vehicles = await _vehicleRepository.GetVehicleByRegistration(registration);
             if (vehicles == null)
@@ -88,7 +88,7 @@ namespace CommurideApi.Controllers {
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<GetVehicleDTO>>> GetVehicleByBrand (string brand)
+        public async Task<ActionResult<List<GetVehicleDTO>>> GetVehicleByBrand(string brand)
         {
             return await _vehicleRepository.GetVehicleByBrand(brand);
         }

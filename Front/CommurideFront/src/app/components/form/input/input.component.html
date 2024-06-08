@@ -1,0 +1,14 @@
+@if (subject) {
+    <div [formGroup]="form" class="input-group-icon">
+        @if (iconUrl) {
+            <img [src]="iconUrl" alt="input icon">
+        }
+        <div class="input-group">
+            @if (label) {
+                <label [for]="subject">{{ label }}</label>
+            }
+            <input type="text" [name]="subject" [id]="subject" [formControlName]="formControlName">
+        </div>
+        
+    </div>
+}

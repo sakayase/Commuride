@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -45,13 +46,34 @@ namespace CommurideTests
             return await _client.PostAsync("api/Rent/PostRent", new StringContent(JsonSerializer.Serialize(postRentDTO), encoding: Encoding.UTF8, mediaType: "application/json"));
         }
 
-        internal async Task<HttpResponseMessage> LoginTestUser(LoginDTO loginDTO)
-        {
-            var loginStringContent = new StringContent(JsonSerializer.Serialize(loginDTO), Encoding.UTF8, mediaType: "application/json");
-            return await _client.PostAsync("api/Auth/Login", loginStringContent);
-        }
+        /// <summary>
+        /// Login user, populate the authorization header
+        /// </summary>
+        /// <param name="loginDTO"></param>
+        /// <returns></returns>
+		internal async Task<HttpResponseMessage> LoginTestUser(LoginDTO loginDTO)
+		{
+			var loginStringContent = new StringContent(JsonSerializer.Serialize(loginDTO), Encoding.UTF8, mediaType: "application/json");
+			var res = await _client.PostAsync("api/Auth/Login", loginStringContent);
+			var content = await res.Content.ReadAsStringAsync();
+			String token = content.Split(' ')[1];
+			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+			return res;
+		}
 
-        internal void CleanDB ()
+        /// <summary>
+        /// Logout connected user, cleans the token in the authorization header
+        /// </summary>
+        /// <returns></returns>
+		internal async Task<HttpResponseMessage> LogoutTestUser()
+		{
+			var res = await _client.GetAsync("api/Auth/Logout");
+			var content = await res.Content.ReadAsStringAsync();
+            _client.DefaultRequestHeaders.Authorization = null;
+			return res;
+		}
+
+		internal void CleanDB ()
         {
             using (var scope = factory.Services.CreateScope())
             {
@@ -78,7 +100,9 @@ namespace CommurideTests
             // Create a new rent 
             DateTime startDate = DateTime.Now.AddMonths(1);
             PostRentDTO postRentDTO = new PostRentDTO() { EndDate = startDate.AddDays(7), StartDate = startDate, VehicleId = 1 };
+            _output.WriteLine(postRentDTO.ToJson());
             var resp = await CreateARent(postRentDTO);
+            _output.WriteLine(resp.ToJson());
             // Deserialise the resp to get the id
             var rent = await JsonSerializer.DeserializeAsync<Rent>(await resp.Content.ReadAsStreamAsync(), options);
             Assert.NotNull(rent);
@@ -220,10 +244,10 @@ namespace CommurideTests
             var postResp = await CreateARent(postRentDTO);
 
             //Logout
-            await _client.GetAsync("api/Auth/Logout");
+            await LogoutTestUser();
 
-            // Deserialise the resp to get the id
-            var rent = await JsonSerializer.DeserializeAsync<Rent>(await postResp.Content.ReadAsStreamAsync(), options);
+			// Deserialise the resp to get the id
+			var rent = await JsonSerializer.DeserializeAsync<Rent>(await postResp.Content.ReadAsStreamAsync(), options);
             Assert.NotNull(rent);
 
             // Delete the created Rent

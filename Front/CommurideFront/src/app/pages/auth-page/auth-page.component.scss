@@ -1,0 +1,53 @@
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-family: 'Alef';
+    font-weight: normal;
+}
+
+.form-container {
+    border: 1px solid black;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    padding: 1.5rem 1rem 1.5rem 1rem;
+    box-shadow: -6px 4px 4px rgba(0, 0, 0, 0.4);
+
+    .error-text {
+        text-align: center;
+        color: red;
+        font-size: 0.8rem;
+    }
+
+    .button {
+        align-self: center;
+        padding: 0.4rem;
+        margin-top: 1rem;
+        background-color: #4F654A;
+        color: white;
+        border: none;
+        border-radius: 2px;
+        width: 120px;
+        font-family: 'Alef';
+        font-weight: normal;
+        font-size: 0.8rem;
+    }
+}
+
+.auth-info-container {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+        width: 100px;
+    }
+    p {
+        width: 400px;
+        font-size: 1.2rem;
+        line-height: 1.4rem;
+        text-align: center; /* Will override color (regardless of order) */
+        text-shadow: rgb(255, 255, 255) 2px 0px 0px, rgb(255, 255, 255) 1.75517px 0.958851px 0px, rgb(255, 255, 255) 1.0806px 1.68294px 0px, rgb(255, 255, 255) 0.141474px 1.99499px 0px, rgb(255, 255, 255) -0.832294px 1.81859px 0px, rgb(255, 255, 255) -1.60229px 1.19694px 0px, rgb(255, 255, 255) -1.97998px 0.28224px 0px, rgb(255, 255, 255) -1.87291px -0.701566px 0px, rgb(255, 255, 255) -1.30729px -1.5136px 0px, rgb(255, 255, 255) -0.421592px -1.95506px 0px, rgb(255, 255, 255) 0.567324px -1.91785px 0px, rgb(255, 255, 255) 1.41734px -1.41108px 0px, rgb(255, 255, 255) 1.92034px -0.558831px 0px;        
+    }
+}

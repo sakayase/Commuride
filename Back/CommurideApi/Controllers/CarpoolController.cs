@@ -17,16 +17,19 @@ namespace CommurideApi.Controllers
     public class CarpoolController : ControllerBase
     {
         private readonly ICarpoolRepository _carpoolRepository;
-        private readonly UserManager<AppUser> _userManager;
-        /// <summary>
-        /// Constructor of carpool controller
-        /// </summary>
-        /// <param name="carpoolRepository"></param>
-        /// <param name="userManager"></param>
-        public CarpoolController(ICarpoolRepository carpoolRepository, UserManager<AppUser> userManager)
-        {
+		private readonly IAuthRepository _authRepository;
+		/// <summary>
+		/// Constructor of carpool controller
+		/// </summary>
+		/// <param name="carpoolRepository"></param>
+		/// <param name="authRepository"></param>
+		public CarpoolController(
+            ICarpoolRepository carpoolRepository,
+			IAuthRepository authRepository
+			)
+		{
             _carpoolRepository = carpoolRepository;
-            _userManager = userManager;
+            _authRepository = authRepository;
         }
 
         /// <summary>
@@ -92,7 +95,9 @@ namespace CommurideApi.Controllers
         {
             try
             {
-                Carpool carpool = await _carpoolRepository.PostCarpool(await GetConnectedUser(), postCarpoolDTO);
+				var user = await _authRepository.GetLoggedUserFromContext();
+
+				Carpool carpool = await _carpoolRepository.PostCarpool(user, postCarpoolDTO);
                 return CreatedAtAction("GetCarpool", new { id = carpool.Id }, carpool);
             }
             catch (NotFoundException e)
@@ -117,7 +122,9 @@ namespace CommurideApi.Controllers
         {
             try
             {
-                Carpool carpool = await _carpoolRepository.UpdateCarpool(await GetConnectedUser(), carpoolID, updateCarpoolDTO);
+				var user = await _authRepository.GetLoggedUserFromContext();
+
+				Carpool carpool = await _carpoolRepository.UpdateCarpool(user, carpoolID, updateCarpoolDTO);
                 return Ok(carpool);
             }
             catch (NotFoundException e)
@@ -141,7 +148,9 @@ namespace CommurideApi.Controllers
         {
             try
             {
-                await _carpoolRepository.DeleteCarpool(await GetConnectedUser(), id);
+				var user = await _authRepository.GetLoggedUserFromContext();
+
+				await _carpoolRepository.DeleteCarpool(user, id);
                 return NoContent();
             }
             catch (NotFoundException e)
@@ -152,23 +161,6 @@ namespace CommurideApi.Controllers
             {
                 return Problem(ex.Message);
             }
-        }
-
-        /// <summary>
-        /// return the connected user if connected
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="GetConnectedUserException"></exception>
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [Authorize]
-        public async Task<AppUser> GetConnectedUser()
-        {
-            var appUser = await _userManager.GetUserAsync(User);
-            if (appUser == null)
-            {
-                throw new GetConnectedUserException();
-            }
-            return appUser;
         }
     }
 }
