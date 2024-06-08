@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -50,13 +51,34 @@ namespace CommurideTests
             return await _client.PostAsync("api/Carpool/PostCarpool", new StringContent(JsonSerializer.Serialize(postCarpoolDTO), encoding: Encoding.UTF8, mediaType: "application/json"));
         }
 
-        internal async Task<HttpResponseMessage> LoginTestUser(LoginDTO loginDTO)
-        {
-            var loginStringContent = new StringContent(JsonSerializer.Serialize(loginDTO), Encoding.UTF8, mediaType: "application/json");
-            return await _client.PostAsync("api/Auth/Login", loginStringContent);
-        }
+		/// <summary>
+		/// Login user, populate the authorization header
+		/// </summary>
+		/// <param name="loginDTO"></param>
+		/// <returns></returns>
+		internal async Task<HttpResponseMessage> LoginTestUser(LoginDTO loginDTO)
+		{
+			var loginStringContent = new StringContent(JsonSerializer.Serialize(loginDTO), Encoding.UTF8, mediaType: "application/json");
+			var res = await _client.PostAsync("api/Auth/Login", loginStringContent);
+			var content = await res.Content.ReadAsStringAsync();
+			String token = content.Split(' ')[1];
+			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+			return res;
+		}
 
-        internal void CleanDB()
+		/// <summary>
+		/// Logout connected user, cleans the token in the authorization header
+		/// </summary>
+		/// <returns></returns>
+		internal async Task<HttpResponseMessage> LogoutTestUser()
+		{
+			var res = await _client.GetAsync("api/Auth/Logout");
+			var content = await res.Content.ReadAsStringAsync();
+			_client.DefaultRequestHeaders.Authorization = null;
+			return res;
+		}
+
+		internal void CleanDB()
         {
             using (var scope = factory.Services.CreateScope())
             {
@@ -111,7 +133,7 @@ namespace CommurideTests
             DateTime startDate = DateTime.Now.AddMonths(1);
             PostRentDTO postRentDTO = new PostRentDTO() { EndDate = startDate.AddDays(7), StartDate = startDate, VehicleId = 1 };
             PostCarpoolDTO postCarpoolDTO = new PostCarpoolDTO() { AddressArrival = "Lens", AddressLeaving = "Lille", DateDepart = startDate.AddDays(8), vehicleId = 2 };
-
+            
             // Clean DB, login and create a new rent at DateTime.Now.AddMonths(1) and ends 7 days later
             CleanDB();
             await LoginTestUser(loginDTO);
@@ -258,7 +280,7 @@ namespace CommurideTests
             var postResp = await CreateACarpool(postCarpoolDTO);
 
             //Logout
-            await _client.GetAsync("api/Auth/Logout");
+            await LogoutTestUser();
 
             // Deserialise the resp to get the id
             var carpool = await JsonSerializer.DeserializeAsync<Carpool>(await postResp.Content.ReadAsStreamAsync(), options);

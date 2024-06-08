@@ -1,1 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Alef';
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('./assets/svg/background.svg');
+    background-size: 100vw;
+    background-position: 25%; 
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@font-face {
+    font-family: 'alef-regular';
+    src: font-url('./assets/fonts/Alef-Regular.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+  @font-face {
+    font-family: 'alef-bold';
+    src: font-url('./assets/fonts/Alef-Bold.ttf') format('ttf');
+    font-weight: bold;
+    font-style: bold;
+}

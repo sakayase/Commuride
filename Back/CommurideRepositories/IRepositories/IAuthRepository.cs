@@ -1,5 +1,6 @@
 ﻿using CommurideModels.DTOs.AppUser;
 using CommurideModels.Models;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace CommurideRepositories.IRepositories
 {
@@ -8,7 +9,7 @@ namespace CommurideRepositories.IRepositories
         public Task<AppUser> Login(LoginDTO loginDTO);
         public Task Logout();
         public Task<AppUser> Register(CreateAppUserDTO appUserDTO);
-        public Task<AppUser> GetLoggedUser();
+        public Task<AppUser> GetLoggedUserFromContext();
         public Task<AppUser> GetUserFromId(string id);
     }
 }

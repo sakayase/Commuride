@@ -1,0 +1,27 @@
+
+<h1>Authentification</h1>
+@if (loginForm) {
+    <form [formGroup]="loginForm" class="form-container" (submit)="submit()">
+        <app-input subject="username" iconUrl="../../../assets/svg/usrname-icon.svg" label="Identifiant" formControlName="username" [form]="loginForm" ngDefaultControl></app-input>
+        <app-input subject="password" iconUrl="../../../assets/svg/pwd-icon.svg" label="Mot de passe" formControlName="password" [form]="loginForm" ngDefaultControl></app-input>
+        
+        @if (error) {
+            <div class="error-container">
+                <p class="error-text">Une erreur est survenue lors de l'authentification</p>
+            </div>
+        }
+    
+        <input class="button" type="submit" value="Se connecter">
+       
+        <!-- <p>auth-form works!</p>
+        <button (click)="login()">Auth</button>
+        <button (click)="getLoggedUser()">Get User</button>
+        <button (click)="logout()">Logout</button>
+        <p>{{ user | json }}</p> -->
+    </form>
+}
+
+<div class="auth-info-container">
+    <img src="../../../assets/svg/warning.svg" alt="warning-icon">
+    <p>Si vous n’avez pas de compte merci de se rapprocher de votre entreprise ou de contacter le S.A.V</p>
+</div>

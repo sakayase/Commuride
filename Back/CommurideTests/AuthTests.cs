@@ -1,5 +1,6 @@
 using CommurideModels.DTOs.AppUser;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using Xunit;
@@ -36,11 +37,16 @@ namespace CommurideTests
             var loginStringContent = new StringContent(loginContent, encoding: Encoding.UTF8, mediaType: "application/json");
             var loginResponse = await _client.PostAsync("api/Auth/Login", loginStringContent);
             var loginResponseContent = await loginResponse.Content.ReadAsStringAsync();
-            Assert.Contains(appUserDTO.Username, loginResponseContent);
 
+			Assert.Contains(appUserDTO.Username, loginResponseContent);
+
+            // find jwt token in login resp
+            String token = loginResponseContent.Split(' ')[1];
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             //LOGOUT
             var responseLogout = await _client.GetAsync("api/Auth/Logout");
             var contentLogout = await responseLogout.Content.ReadAsStringAsync();
+            _output.WriteLine(responseLogout.StatusCode.ToString());
             Assert.Contains("User Disconnected", contentLogout);
         }
     }

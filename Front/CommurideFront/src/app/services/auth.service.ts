@@ -12,18 +12,18 @@ export class AuthService {
 
   constructor(private client: HttpClient) { }
 
-  login(login: LoginInterface): Observable<any> {
-    const options: object = { withCredentials: true, responseType: "text", observe: 'response' as 'response' };
-    return this.client.post(`${this.url}/Login/`, login, options)
+  login(login: LoginInterface): Observable<string> {
+    const options: object = { responseType: "text" };
+    return this.client.post<string>(`${this.url}/Login/`, login, options)
   }
 
   logout(): Observable<any> {
-    const options: object = { withCredentials: true, responseType: "text", observe: 'response' as 'response' };
+    const options: object = { responseType: "text", observe: 'response' as 'response' };
     return this.client.get(`${this.url}/Logout`, options)
   }
 
-  getUserObject(): Observable<any> {
-    const options: object = { withCredentials: true, observe: 'response' as 'response' };
+  getUserObject(token:string): Observable<any> {
+    const options: object = {};
     return this.client.get(`${this.url}/GetConnectedUser/`, options);
   }
 }

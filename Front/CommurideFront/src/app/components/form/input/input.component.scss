@@ -1,0 +1,24 @@
+.input-group-icon {
+    display: flex;
+    flex-direction: row;
+
+    .input-group {
+        margin: 0.5rem;
+        width: 100%;
+        position: relative;
+        input {
+            width: 100%;
+            height: 1.9rem;
+            border: 1px solid black;
+            border-radius: 0;
+        }
+        label {
+            position: absolute;
+            background-color: white;
+            font-size: 0.8rem;
+            padding: 0rem 0.2rem;
+            top: -10px;
+            left:5px;
+        }
+    }
+}

@@ -21,17 +21,20 @@ namespace CommurideApi.Controllers
     {
         // GET: api/<RentController>
         private readonly IRentRepository _rentRepository;
-        private readonly UserManager<AppUser> _userManager;
+		private readonly IAuthRepository _authRepository;
 
-        /// <summary>
-        /// Controller contructor
-        /// </summary>
-        /// <param name="rentRepository">Rent repository</param>
-        /// <param name="userManager">User manager</param>
-        public RentController(IRentRepository rentRepository, UserManager<AppUser> userManager)
+		/// <summary>
+		/// Controller contructor
+		/// </summary>
+		/// <param name="rentRepository">Rent repository</param>
+		/// <param name="authRepository">Auth repository</param>
+		public RentController(
+            IRentRepository rentRepository,
+			IAuthRepository authRepository
+			)
         {
             _rentRepository = rentRepository;
-            _userManager = userManager;
+            _authRepository = authRepository;
         }
 
         /// <summary>
@@ -63,7 +66,8 @@ namespace CommurideApi.Controllers
         {
             try
             {
-                AppUser user = await GetConnectedUser();
+				var user = await _authRepository.GetLoggedUserFromContext();
+
                 List<RentDTO>? RentDTOs = await _rentRepository.GetUserRents(user);
                 return Ok(RentDTOs);
             }
@@ -107,7 +111,9 @@ namespace CommurideApi.Controllers
         {
             try
             {
-                Rent rent = await _rentRepository.PostRent(await GetConnectedUser(), postRentDTO);
+				var user = await _authRepository.GetLoggedUserFromContext();
+
+				Rent rent = await _rentRepository.PostRent(user, postRentDTO);
                 return CreatedAtAction("GetRent", new { id = rent.Id }, rent);
             }
             catch (NotFoundException e)
@@ -132,7 +138,9 @@ namespace CommurideApi.Controllers
         {
             try
             {
-                Rent carpool = await _rentRepository.UpdateRent(await GetConnectedUser(), rentID, updateRentDTO);
+				var user = await _authRepository.GetLoggedUserFromContext();
+
+				Rent carpool = await _rentRepository.UpdateRent(user, rentID, updateRentDTO);
                 return Ok(carpool);
             }
             catch (NotFoundException e)
@@ -156,7 +164,9 @@ namespace CommurideApi.Controllers
         {
             try
             {
-                await _rentRepository.DeleteRent(await GetConnectedUser(), rentID);
+                var user = await _authRepository.GetLoggedUserFromContext();
+
+                await _rentRepository.DeleteRent(user, rentID);
                 return NoContent();
             }
             catch (NotFoundException e)
@@ -167,23 +177,6 @@ namespace CommurideApi.Controllers
             {
                 return Problem(ex.Message);
             }
-        }
-
-        /// <summary>
-        /// Get the connected user
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="GetConnectedUserException"></exception>
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [Authorize]
-        public async Task<AppUser> GetConnectedUser()
-        {
-            var appUser = await _userManager.GetUserAsync(User);
-            if (appUser == null)
-            {
-                throw new GetConnectedUserException();
-            }
-            return appUser;
         }
     }
 }
