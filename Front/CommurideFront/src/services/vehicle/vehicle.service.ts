@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import VehicleInterface  from '../../interfaces/vehicleInterface';
+import VehicleInterface, { CategoryVehicle, MotorizationVehicle, StatusVehicle }  from '../../interfaces/vehicleInterface';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { retry } from 'rxjs';
@@ -26,5 +26,17 @@ export class VehicleService {
     const url = 'http://localhost:5280/api/vehicle/GetAllVehicles';
     console.log(this.http.get<Array<VehicleInterface>>(url).pipe(retry(1)));
     return this.http.get<Array<VehicleInterface>>(url).pipe(retry(1))
+  }
+
+  getCategoryName(category: CategoryVehicle): string {
+    return CategoryVehicle[category];
+  }
+  
+  getMotorizationName(motorization: MotorizationVehicle): string {
+    return MotorizationVehicle[motorization];
+  }
+  
+  getStatusName(status: StatusVehicle): string {
+    return StatusVehicle[status];
   }
 }
