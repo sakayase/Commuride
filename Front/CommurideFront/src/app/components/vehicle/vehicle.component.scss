@@ -1,0 +1,22 @@
+.listCards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.cardVehicle {
+    background-color: #D9D9D9;
+    width: 376px;
+    height: 225px;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    img {
+        background-color: #4F654A;
+        border-radius: 11px;
+        width: 186px;
+        height: 110px;
+    }
+}
