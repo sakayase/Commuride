@@ -2,16 +2,16 @@
     <section *ngFor="let vehicle of  vehicles" class="cardVehicle">
         <header>
             <img src={{vehicle.urlPhoto}}>
-            <div>
-                <p id="motorization">{{vehicle.motorization}}</p>
-                <p id="nbPlaces">{{vehicle.nbPlaces}}</p>
-                <p id="category">{{vehicle.category}}</p>
+            <div class="infos">
+                <p id="motorization">Motorisation: {{getMotorizationName(vehicle.motorization)}}</p>
+                <p id="nbPlaces">Nombre de places: {{vehicle.nbPlaces}}</p>
+                <p id="category">Catégorie: {{getCategoryName(vehicle.category)}}</p>
             </div>
         </header>
         <div class="cardCorps">
             <div>
                 <h1>{{vehicle.brand}} {{vehicle.model}}</h1>
-                <p>{{vehicle.cO2}}</p>
+                <p>CO2/Km: {{vehicle.cO2}}g</p>
                 <!-- <div>
                     <img src=""/>
                     <p>Localisation:</p>
