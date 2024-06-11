@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { StorageService } from '../../services/storage.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
+import { StorageService } from '../../services/storage/storage.service';
 
 @Component({
   selector: 'app-home-page',
@@ -12,7 +13,8 @@ import { StorageService } from '../../services/storage.service';
 export class HomePageComponent {
   constructor(
     private authService: AuthService, 
-    private storageService: StorageService
+    private storageService: StorageService,
+    private router: Router
   ) {
     
   }
@@ -20,7 +22,8 @@ export class HomePageComponent {
   logout() {
     this.authService.logout().subscribe({
       next: (e) => {
-        this.storageService.clear()
+        this.storageService.clear();
+        window.location.reload();
       },
       error: (e) => {
         console.log('error logout');

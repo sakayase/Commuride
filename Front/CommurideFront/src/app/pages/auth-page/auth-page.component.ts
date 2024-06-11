@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth.service';
-import { StorageService } from '../../services/storage.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { InputComponent } from '../../components/form/input/input.component';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { StorageService } from '../../services/storage/storage.service';
 
 @Component({
   selector: 'app-auth-page',
@@ -29,6 +30,7 @@ export class AuthPageComponent {
     private authService: AuthService, 
     private storageService: StorageService, 
     private formBuilder: FormBuilder,
+    private router: Router,
   ) {}
 
   submit() {
@@ -57,6 +59,7 @@ export class AuthPageComponent {
       next: (e) => {
         this.storageService.saveUser(e);
         this.user = this.storageService.getUser();
+        this.router.navigate(['']);
       },
       error: (e) => {
         this.error = true;

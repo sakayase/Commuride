@@ -1,6 +1,6 @@
 import { HttpHandlerFn, HttpHeaders, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { StorageService } from '../services/storage.service';
+import { StorageService } from '../services/storage/storage.service';
 
 export const jwtInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const store = inject(StorageService);

@@ -1,14 +1,14 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { StorageService } from '../services/storage.service';
+import { StorageService } from '../services/storage/storage.service';
 
 export const accessGuard: CanActivateFn = async (route, state) => {
-  console.log("guaaaaard");
   if (route.data['requiresAuth']) {
     const store = inject(StorageService);
     const router = inject(Router);
     if (!store.isLoggedIn()) {
-      router.navigate(['login'])
+      router.navigateByUrl('/login');
+      return false;
     }
   }
   return true;

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
 
 const USER_KEY = 'auth-user';
 const TOKEN_KEY = 'auth-token';
