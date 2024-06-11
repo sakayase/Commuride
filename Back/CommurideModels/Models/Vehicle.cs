@@ -3,12 +3,15 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CommurideModels.DTOs.Vehicle;
 using CommurideModels.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Models
 {
     public class Vehicle
     {
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum CategoryVehicle
         {
             MicroUrbaine,
@@ -21,6 +24,7 @@ namespace Models
             SUVPickUpTT
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum MotorizationVehicle
         {
             Diesel,
@@ -30,6 +34,7 @@ namespace Models
             Electrique
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum StatusVehicle
         {
             Service,
