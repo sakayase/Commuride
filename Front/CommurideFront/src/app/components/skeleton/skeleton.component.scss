@@ -1,0 +1,30 @@
+.skeleton {
+    height: 40rem;
+    width: 80%;
+    background-color: white;
+    border: 1px solid black;
+    padding: 1.5rem 1rem 1.5rem 1rem;
+    box-shadow: -6px 4px 4px rgba(0, 0, 0, 0.4);
+}
+
+h4 {
+    margin-left: 20px;
+}
+
+hr {
+    margin-top: -15px;
+    width: 179px;
+    border: 1px solid black;
+    left: 0;
+}
+
+#resultArea {
+    height: 30rem;
+    overflow: scroll;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #818080 #ffffff;
+    ::-webkit-scrollbar-corner {
+        border-radius: 10px;
+    }
+}
