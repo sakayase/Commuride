@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import vehicleInterface, { CategoryVehicle, MotorizationVehicle, StatusVehicle } from '../../interfaces/vehicleInterface';
 import { CommonModule } from '@angular/common';
 import { VehicleService } from '../../services/vehicle/vehicle.service';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-vehicle',
