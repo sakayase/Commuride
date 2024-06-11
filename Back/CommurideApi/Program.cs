@@ -25,12 +25,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "CorsConfigDev", policy =>
     {
-/*        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-*/       policy.SetIsOriginAllowed(origin => {
-            Console.WriteLine(origin);
-            Uri uri = new UriBuilder(origin).Uri;
-            return uri.IsLoopback;
-        }).AllowAnyMethod().AllowAnyHeader();
+		policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+		policy.SetIsOriginAllowed(origin => {
+		Console.WriteLine(origin);
+		Uri uri = new UriBuilder(origin).Uri;
+		return uri.IsLoopback;
+		}).AllowAnyMethod().AllowAnyHeader();
     });
 });
 
