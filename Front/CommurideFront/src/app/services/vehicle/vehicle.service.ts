@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import VehicleInterface, { CategoryVehicle, MotorizationVehicle, StatusVehicle }  from '../../app/interfaces/vehicleInterface';
+import VehicleInterface, { CategoryVehicle, MotorizationVehicle, StatusVehicle }  from '../../interfaces/vehicleInterface';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { retry } from 'rxjs';
