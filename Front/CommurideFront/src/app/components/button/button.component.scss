@@ -11,3 +11,7 @@ button {
     font-weight: normal;
     font-size: 0.8rem;
 }
+
+button:hover {
+    filter: brightness(110%);
+}

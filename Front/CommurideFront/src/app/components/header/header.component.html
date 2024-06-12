@@ -1,0 +1,11 @@
+<header>
+    <img class="header-title-img" src="../../../assets/svg/CommurideLogo.svg" alt="Commuride Logo">
+    @if (isUserLogged()) {
+        <button [id]="buttonId" (click)="toggleModal()">
+            <img [id]="buttonId" src="../../../assets/svg/usr-icon.svg" alt="Icon utilisateur">
+        </button>
+    }
+    @if (showModal) {
+        <app-modal-navigation appClickOutside (clickOutside)="toggleModal()" [buttonId]="buttonId"/>
+    }
+</header>

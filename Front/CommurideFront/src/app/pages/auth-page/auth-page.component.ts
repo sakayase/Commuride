@@ -5,6 +5,7 @@ import { InputComponent } from '../../components/form/input/input.component';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StorageService } from '../../services/storage/storage.service';
+import { ButtonComponent } from '../../components/button/button.component';
 
 @Component({
   selector: 'app-auth-page',
@@ -14,6 +15,7 @@ import { StorageService } from '../../services/storage/storage.service';
     InputComponent,
     FormsModule,
     ReactiveFormsModule,
+    ButtonComponent
   ],
   templateUrl: './auth-page.component.html',
   styleUrl: './auth-page.component.scss'
@@ -34,7 +36,6 @@ export class AuthPageComponent {
   ) {}
 
   submit() {
-    console.log('submit')
     this.login(this.loginForm!.controls['username'].value, this.loginForm!.controls['password'].value)
   }
 

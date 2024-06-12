@@ -1,0 +1,44 @@
+<div class="modal-container">
+    <h3>Navigation</h3>
+    <div class="nav-separator"></div>
+    <nav>
+        <ul>
+            <li class="nav-main-link">
+                <a routerLink="/home" routerLinkActive="active-link">
+                    Acceuil
+                </a>
+            </li>
+            <li class="nav-main-link">
+                <a routerLink="/location" routerLinkActive="active-link">
+                    Location
+                </a>
+            </li>
+            <li class="nav-main-link">
+                <a routerLink="/covoit" routerLinkActive="active-link">
+                    Covoiturage
+                </a>
+            </li>
+            <li class="nav-main-link">
+                <a routerLink="/user-page" routerLinkActive="active-link">
+                    Mon Compte
+                </a>
+                <ul>
+                    <li class="nav-second-link">
+                        <a routerLink="/user-page/location" routerLinkActive="active-link">
+                            Mes Locations
+                        </a>
+                    </li>
+                    <li class="nav-second-link">
+                        <a routerLink="/user-page/covoit" routerLinkActive="active-link">
+                            Mes Covoiturages
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <a class="disconnect-link" (click)="logout()">
+        <img class="disconnect-icon" src="../../../../assets/svg/disconnect-icon.svg">
+        <p>Se déconnecter</p>
+    </a>
+</div>

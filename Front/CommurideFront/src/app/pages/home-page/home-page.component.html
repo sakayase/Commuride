@@ -1,2 +1,19 @@
-<p>menu-page works!</p>
-<button (click)="logout()">Disconnect</button>
+<div class="home-container">
+    <div class="button-container">
+        <div class="top-button-container">
+            <button [routerLink]="['location']">
+                <img src="../../../../assets/svg/location-icon.svg">
+                <p>Location</p>
+            </button>
+            <button [routerLink]="['covoit']">
+                <img src="../../../../assets/svg/covoit-icon.svg">
+                <p>Covoiturage</p>
+            </button>
+        </div>
+        <button [routerLink]="['user-page']">
+            <img src="../../../../assets/svg/usr-icon.svg">
+            <p>Mon compte</p>
+        </button>
+    </div>
+    <app-button color="#654A4A" (click)="logout()">Me deconnecter</app-button>
+</div>

@@ -22,6 +22,14 @@ body {
     justify-content: center;
 }
 
+app-root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
 @font-face {
     font-family: 'alef-regular';
     src: font-url('./assets/fonts/Alef-Regular.ttf') format('ttf');
@@ -34,4 +42,13 @@ body {
     src: font-url('./assets/fonts/Alef-Bold.ttf') format('ttf');
     font-weight: bold;
     font-style: bold;
+}
+
+button {
+  font-family: 'Alef';
+}
+
+button:hover {
+  filter: brightness(110%);
+  cursor: pointer;
 }

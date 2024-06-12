@@ -11,6 +11,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class ButtonComponent {
   @Input() color: string = '#4F654A';
   @Input() text: string = 'button';
+  @Input() type: string | undefined;
   @Output() clickEvent = new EventEmitter<void>();
 
   onClick() {
