@@ -52,3 +52,19 @@ button:hover {
   filter: brightness(110%);
   cursor: pointer;
 }
+
+app-root {
+  height: inherit;
+}
+
+main {
+  height: inherit;
+}
+
+app-skeleton {
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

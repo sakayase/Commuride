@@ -1,0 +1,16 @@
+<ng-container *ngIf="isMobile; else desktopTemplate">
+    <div>Mobile temp</div>
+</ng-container>
+
+<ng-template #desktopTemplate>
+    <div class="skeleton">
+        <div id="formArea">
+            <ng-content select="[form]"></ng-content>
+        </div>
+        <h4>Résultats</h4>
+        <hr/>
+        <div id="resultArea">
+            <ng-content select="[result]"></ng-content>
+        </div>
+    </div>
+</ng-template>
