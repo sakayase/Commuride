@@ -1,0 +1,36 @@
+<article class="listCards">
+    <section *ngFor="let carpool of carpools" class="cardCarpool">
+        <header>
+            <h4>Date:{{carpool.dateDepart}}</h4>
+        </header>
+        <main class="cardCorps">
+            <div class="left">
+                <div class="time">
+                    <p>heure</p>
+                    <!-- <p>{{carpool.duration}}</p> doesn't work-->
+                     <p>Durée</p>
+                    <p>Heure</p>
+                </div>
+                <img src="../../../assets/svg/traject.svg"/>
+                <div class="place">
+                    <h4>{{carpool.addressLeaving}}</h4>
+                    <br/>
+                    <h4>{{carpool.addressArrival}}</h4>
+                </div>
+            </div>
+            <div class="right">
+                <h4>{{carpool.vehicleDTO.brand}}</h4>
+                <h4>{{carpool.vehicleDTO.model}}</h4>
+            </div>
+        </main>
+        <footer>
+            <div class="profil">
+                <img src=""/>
+                <h3>Nom Prénom</h3>
+            </div>
+            <ng-content select="[button]"></ng-content>
+        </footer>
+    </section>
+</article>
+
+<!-- not working yet -->

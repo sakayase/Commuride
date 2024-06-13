@@ -1,0 +1,42 @@
+.listCards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.cardCarpool {
+    background-color: #D9D9D9;
+    margin: 15px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.cardCorps{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .left {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        img {
+            height: 6rem;
+        }
+    }
+}
+
+.profil {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    img {
+        background-color: #2787D8;
+        height: 45px;
+        width: 45px;
+        border-radius: 100%;
+        object-fit: cover;
+    }
+}
