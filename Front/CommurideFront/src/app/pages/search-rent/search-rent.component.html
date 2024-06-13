@@ -1,0 +1,12 @@
+<app-skeleton>
+    <form form *ngIf="searchForm" [formGroup]="searchForm" ngDefaultControl>
+      <app-input subject="Recherche" label="Recherche" formControlName="search" [form]="searchForm" ngDefaultControl></app-input>
+      <app-input subject="date" label="date" formControlName="date" type="date" [form]="searchForm" ngDefaultControl></app-input>
+      <app-button type="submit" color="#2787D8">Rechercher</app-button>
+    </form>
+    <div result>
+      <app-vehicle>
+        <app-button button color="#4F654A">Réserver</app-button>
+      </app-vehicle>
+    </div>
+</app-skeleton>

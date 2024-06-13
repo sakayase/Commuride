@@ -4,6 +4,7 @@
     background-color: white;
     border: 1px solid black;
     padding: 1.5rem 1rem 1.5rem 1rem;
+    margin-bottom: 40px;
     box-shadow: -6px 4px 4px rgba(0, 0, 0, 0.4);
 }
 
@@ -19,7 +20,7 @@ hr {
 }
 
 #resultArea {
-    height: 30rem;
+    height: 73%;
     overflow: scroll;
     overflow-x: hidden;
     scrollbar-width: thin;
@@ -27,4 +28,11 @@ hr {
     ::-webkit-scrollbar-corner {
         border-radius: 10px;
     }
+}
+
+@media screen and (max-width: 1000px) {
+    #formArea {
+        
+    }
+    
 }
