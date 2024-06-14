@@ -14,8 +14,8 @@ namespace CommurideModels.DTOs.Carpool
         public required DateTime DateDepart { get; set; }
         [Required]
         public required string AddressArrival { get; set; }
-        public int? Duration { get; set; }
-        public int? Distance { get; set; }
+        public int Duration { get; set; }
+        public int Distance { get; set; }
         [Required]
         [DeleteBehavior(DeleteBehavior.NoAction)]
         public CarpoolAppUserDTO? Driver { get; set; }
