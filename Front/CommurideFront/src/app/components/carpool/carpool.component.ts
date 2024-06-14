@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { carpoolInterface } from '../../interfaces/carpoolInterface';
 import { carpoolService } from '../../services/carpool/carpool.service';
 import VehicleInterface from '../../interfaces/vehicleInterface';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-carpool',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   templateUrl: './carpool.component.html',
   styleUrl: './carpool.component.scss'
 })
@@ -21,9 +22,6 @@ export class CarpoolComponent {
     this.carpoolService.loadCarpools().subscribe({
       next: (Carpools: carpoolInterface[]) => {
         this.carpools = Carpools;
-        for (var i = 0; i < this.carpools.length; i++) {
-          console.log(this.carpools[i].vehicleDTO);
-        }
         console.log(this.carpools)
       },
       error: (error) => {
