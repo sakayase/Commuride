@@ -6,7 +6,7 @@ export interface carpoolInterface {
     addressLeaving: string;
     dateDepart: Date;
     addressArrival: string;
-    duration: any;
+    duration: number;
     distance: number;
     driver: string;
     // passengers
