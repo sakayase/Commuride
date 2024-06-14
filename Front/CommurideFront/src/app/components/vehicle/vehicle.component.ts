@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import vehicleInterface, { CategoryVehicle, MotorizationVehicle, StatusVehicle } from '../../interfaces/vehicleInterface';
 import { CommonModule } from '@angular/common';
 import { VehicleService } from '../../services/vehicle/vehicle.service';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-vehicle',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   templateUrl: './vehicle.component.html',
   styleUrl: './vehicle.component.scss'
 })
